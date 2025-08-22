@@ -1,6 +1,8 @@
 # BR 2nd varibles notes
 
-gregarious_maximus = "SyntaxError"
-gregarious_maximus = gregarious_maximus*3
-gregarious_maximus = gregarious_maximus^1/3
-print(gregarious_maximus)
+SyntaxError, SyntaxWarning, SystemError
+#snake_case
+#camelCase
+#PascalCase
+SyntaxError = 35
+print(SyntaxError)
