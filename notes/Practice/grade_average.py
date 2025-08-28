@@ -1,0 +1,11 @@
+#BHR 2nd Grade Average
+Period1 = int(input("What is your grade in your first period class? "))
+Period2 = int(input("What is your grade in your second period class? "))
+Period3 = int(input("What is your grade in your third period class? "))
+Period4_or_5 = int(input("What is your grade in your fourth or fifth period class? "))
+Period6 = int(input("What is your grade in your sixth period class? "))
+Period7 = int(input("What is your grade in your seventh period class? "))
+Period8 = int(input("What is your grade in your eigth period class? "))
+grade_average = float((Period1+Period2+Period3+Period4_or_5+Period6+Period7+Period8)/7)
+grade_average = round(grade_average, 2)
+print("Your grade average is", grade_average, "%")
