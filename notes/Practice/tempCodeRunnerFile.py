@@ -1,4 +1,6 @@
-r second period class? "))
+# BHR 2nd grade average
+Period1 = int(input("What is your grade in your first period class? "))
+Period2 = int(input("What is your grade in your second period class? "))
 Period3 = int(input("What is your grade in your third period class? "))
 Period4_or_5 = int(input("What is your grade in your fourth or fifth period class? "))
 Period6 = int(input("What is your grade in your sixth period od class? "))
