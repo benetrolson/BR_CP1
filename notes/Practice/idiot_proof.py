@@ -10,4 +10,3 @@ round(grade_average, 1)
 if grade_average >= 4:
 	grade_average = 4.0
 print(f"Your name is {name}, your number is {correct_number}, and your grade average is {grade_average}. ")
-#https://www.programiz.com/python-programming/online-compiler/
