@@ -1,5 +1,10 @@
 #BHR 2nd Idiot Proof
-name = input("What is your name? ").strip().title()
+while True:
+    name = input("What is your name? ").strip().title()
+    if name.isdigit():
+        print("Your name is invalid. Please try again. ")
+    else:
+        break
 while True:
     number = input("What is your number? ")
     if len(number) == 10 and number.isdigit() and not " " in number:
@@ -12,7 +17,7 @@ number3 = number[6:]
 correct_number = number1 + " " + number2 + " " + number3
 while True:
     grade_average = float(input("What is your grade point average? "))
-    if grade_average >= 4:
+    if grade_average >= 4.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001:
 	    print("That is an invalid GPA. Please try again. ")
     else:
 	    break
