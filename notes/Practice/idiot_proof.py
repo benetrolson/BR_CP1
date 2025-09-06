@@ -17,7 +17,7 @@ number3 = number[6:]
 correct_number = number1 + " " + number2 + " " + number3
 while True:
     grade_average = float(input("What is your grade point average? "))
-    if grade_average >= 4.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001:
+    if grade_average >= 4.01:
 	    print("That is an invalid GPA. Please try again. ")
     else:
 	    break
