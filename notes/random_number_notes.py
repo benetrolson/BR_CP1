@@ -18,5 +18,5 @@ stat_six = random.randint(1,6) + random.randint(1,6) + random.randint(1,6)
 stat_seven = random.randint(1,6) + random.randint(1,6) + random.randint(1,6)
 
 print(f"Your stat options are: {stat_one}, {stat_two}, {stat_three}, {stat_four}, {stat_five}, {stat_six}, {stat_seven}")
-
+#set individual stats
 strength = int(input("Which stat are you making your strength? ")) + 2
