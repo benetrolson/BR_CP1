@@ -1,7 +1,17 @@
 # BHR 2nd Crew Shares
 
-earnings = float(input("How many dollars did Bob(the ship's captain) and his crew earn? "))
-crew = int(input("How many people are in the crew? "))
+while True:
+    earnings = float(input("How many dollars did Bob(the ship's captain) and his crew earn? "))
+    if earnings.find(" "):
+        print("try again")
+    else:
+        break
+while True:
+    crew = int(input("How many people are in the crew? "))
+    if crew < 0.1:
+        print("Please try again. The crew cannot be that small. ")
+    else:
+        break
 bass_share = earnings/(crew + 10)
 share_for_mate = bass_share * 3
 share_for_bob = bass_share * 7
