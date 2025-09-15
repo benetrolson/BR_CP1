@@ -1,11 +1,5 @@
 # BHR 2nd Crew Shares
-
-while True:
-    earnings = float(input("How many dollars did Bob(the ship's captain) and his crew earn? "))
-    if earnings.find(" "):
-        print("try again")
-    else:
-        break
+earnings = float(input("How many dollars did Bob(the ship's captain) and his crew earn? "))
 while True:
     crew = int(input("How many people are in the crew? "))
     if crew < 0.1:
