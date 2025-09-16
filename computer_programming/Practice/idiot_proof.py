@@ -1,10 +1,10 @@
 #BHR 2nd Idiot Proof
 while True:
-    name = input("What is your name? ").strip().title()
-    if name.isdigit():
-        print("Your name is invalid. Please try again. ")
-    else:
+    name = input("What is your name? ").strip()
+    if not name.isdigit() and name.istitle():
         break
+    else:
+        print("Your name is invalid. Please try again. ")
 while True:
     number = input("What is your number? ")
     if len(number) == 10 and number.isdigit() and not " " in number:
