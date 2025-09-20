@@ -1,28 +1,114 @@
 #BHR 2nd conditional notes
 import random
-monster_hp = 30
-dmg_modifier = 2
-atack_bonus = 3
-player_hp = 25
+while True:
+    player_hp = input("What is your health? ")
+    if player_hp.isnumeric():
+        player_hp = int(player_hp)
+        if player_hp > 0:
+            break
+        else:
+            print("That is invalid. Please try again. ")
+    else:
+        print("That is invalid. Please try again. ")
+while True:
+    armor_class = input("What is your armor class? ")
+    if armor_class.isnumeric():
+        armor_class = int(armor_class)
+        if armor_class > 0:
+            break
+        else:
+            print("That is invalid. Please try again. ")
+    else:
+        print("That is invalid. Please try again. ")
+while True:
+    dmg_modifier = input("What is your damage modifier? ")
+    if dmg_modifier.isnumeric():
+        dmg_modifier = int(dmg_modifier)
+        if  dmg_modifier > -0.01:
+            break
+        else:
+            print("That is invalid. Please try again. ")
+    else:
+        print("That is invalid. Please try again. ")
+while True:
+    attack_bonus = input("What is your attack bonus? ")
+    if attack_bonus.isnumeric():
+        attack_bonus = int(attack_bonus)
+        if attack_bonus > -0.01:
+            break
+        else:
+            print("That is invalid. Please try again. ")
+    else:
+        print("That is invalid. Please try again. ")
+while True:
+    monster_hp = input("What is the enemy's hp? ")
+    if monster_hp.isnumeric():
+        monster_hp = int(monster_hp)
+        if monster_hp > 0:
+            break
+        else:
+            print("That is invalid. Please try again. ")
+    else:
+        print("That is invalid. Please try again. ")
+while True:
+    monster_armor_class = input("What is the enemy's armor class? ")
+    if monster_armor_class.isnumeric():
+        monster_armor_class = int(monster_armor_class)
+        if monster_armor_class > -0.01:
+            break
+        else:
+            print("That is invalid. Please try again. ")
+    else:
+        print("That is invalid. Please try again. ")
+while True:
+    monster_dmg_modifier = input("What is the enemy's damage modifier? ")
+    if monster_dmg_modifier.isnumeric():
+        monster_dmg_modifier = int(monster_dmg_modifier)
+        if monster_dmg_modifier > -0.01:
+            break
+        else:
+            print("That is invalid. Please try again. ")
+    else:
+        print("That is invalid. Please try again. ")
 
 while monster_hp >= 0:
-    roll = random.randint(1,20)
+    roll = (random.randint(1,20) + attack_bonus)
     monster_roll =  random.randint(1,20)
-    if roll == 20:
-        print("You rolled a critical! Double your damage.")
-        attack = random.randint(1,8) + random.randint(1,8) + dmg_modifier
-        monster_hp -= attack
-        print(f"The monster took {attack} damage. It's health is now {monster_hp}")
-    if roll > 10:
-        print("You hit!")
-        attack = random.randint(1,8) + dmg_modifier
-        monster_hp -= attack
-        print(f"The monster took {attack} damage. It's health is now {monster_hp}")
-    elif roll <= 10:
+    while True:
+        dice = input("What is the dice you are using? ")
+        if dice.isnumeric():
+            dice = int(dice)
+            if dice > 0:
+                break
+            else:
+                print("That is invalid. Please try again. ")
+        else:
+            print("That is invalid. Please try again. ")
+    if roll > monster_armor_class:
+        if roll == 20:
+            print("You rolled a critical! Double your damage.")
+            attack = random.randint(1,dice) + random.randint(1,dice) + dmg_modifier
+            monster_hp -= attack
+            if monster_hp <= 0:
+                print(f"The monster took {attack} damage. It's health is now 0")
+            else:
+                print(f"The monster took {attack} damage. It's health is now {monster_hp}")
+        else:
+            print("You hit!")
+            attack = random.randint(1,dice) + dmg_modifier
+            monster_hp -= attack
+            if monster_hp <= 0:
+                print(f"The monster took {attack} damage. It's health is now 0")
+            else:
+                print(f"The monster took {attack} damage. It's health is now {monster_hp}")
+    elif roll <= monster_armor_class:
         if roll <= 1:
-            damage = (random.randint(1,10) + 2)
+            damage = (random.randint(1,random.randint(1,10)) + monster_dmg_modifier)
             player_hp -= damage
-            print(f"You took {damage} damage. You now have {player_hp}")
+            if player_hp <= 0:
+                print(f"You took {attack} damage. You now have 0 health. ")
+            else:
+                print(f"You took {damage} damage. You now have {player_hp}")
         else:
             print("You missed!")
     else:
@@ -31,20 +117,41 @@ while monster_hp >= 0:
         print(f"The monster's health is now 0")
         break
     print("Your turn is over. ")
-    if monster_roll == 20:
-        print("The monster rolled a critical! Their damage is doubled.")
-        damage = random.randint(1,8) + random.randint(1,8) + dmg_modifier
-        player_hp -= damage
-        print(f"Your health is now {player_hp}")
-    if monster_roll > 10:
-        print("The monster hit!")
-        damage = random.randint(1,8) + dmg_modifier
-        player_hp -= damage
-        print(f"Your health is now {player_hp}")
-    elif monster_roll <= 10:
+    while True:
+        monster_dice = input("What is the dice the enemy is using? ")
+        if monster_dice.isnumeric():
+            monster_dice = int(monster_dice)
+            if monster_dice > 0:
+                break
+            else:
+                print("That is invalid. Please try again. ")
+        else:
+            print("That is invalid. Please try again. ")
+    if monster_roll > armor_class:
+        if monster_roll == 20:
+            print("The monster rolled a critical! Their damage is doubled.")
+            damage = random.randint(1,monster_dice) + random.randint(1,monster_dice) + monster_dmg_modifier
+            player_hp -= damage
+            if player_hp <= 0:
+                print(f"You took {attack} damage. You now have 0 health. ")
+            else:
+                print(f"You took {damage} damage. You now have {player_hp}")
+        else:
+            print("The monster hit!")
+            damage = random.randint(1,monster_dice) + monster_dmg_modifier
+            player_hp -= damage
+            if player_hp <= 0:
+                print(f"You took {attack} damage. You now have 0 health. ")
+            else:
+                print(f"You took {damage} damage. You now have {player_hp}")
+    elif monster_roll <= armor_class:
         if monster_roll <=1:
-            attack = (random.randint(1,10) + 2)
-            print(f"The monster took {attack} damage. It's health is now {monster_hp}")
+            attack = (random.randint(1,random.randint(1,10)) + dmg_modifier)
+            monster_hp -= attack
+            if monster_hp <= 0:
+                print(f"The monster took {attack} damage. It's health is now 0")
+            else:
+                print(f"The monster took {attack} damage. It's health is now {monster_hp}")
         print("The monster missed!")
     else:
         print("That is weird. You did something wrong. ")
