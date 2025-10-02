@@ -1,5 +1,6 @@
 #BHR 2nd conditional notes
 import random
+enemies = []
 while True:
     player_hp = input("What is your health? ")
     if player_hp.isnumeric():
@@ -40,36 +41,48 @@ while True:
             print("That is invalid. Please try again. ")
     else:
         print("That is invalid. Please try again. ")
-while True:
-    monster_hp = input("What is the enemy's hp? ")
-    if monster_hp.isnumeric():
-        monster_hp = int(monster_hp)
-        if monster_hp > 0:
-            break
+
+amount_of_monster = int(input("How many enemies are there? "))
+enemies.append(amount_of_monster)
+amount = amount_of_monster
+monster_health = []
+monster_ac = []
+monster_damage_modifier = []
+while amount >= 0:
+    while True:
+        monster_hp = input("What is the enemy's hp? ")
+        if monster_hp.isnumeric():
+            monster_hp = int(monster_hp)
+            if monster_hp > 0:
+                monster_health.append(monster_hp)
+                break
+            else:
+                print("That is invalid. Please try again. ")
         else:
             print("That is invalid. Please try again. ")
-    else:
-        print("That is invalid. Please try again. ")
-while True:
-    monster_armor_class = input("What is the enemy's armor class? ")
-    if monster_armor_class.isnumeric():
-        monster_armor_class = int(monster_armor_class)
-        if monster_armor_class > -0.01:
-            break
+    while True:
+        monster_armor_class = input("What is the enemy's armor class? ")
+        if monster_armor_class.isnumeric():
+            monster_armor_class = int(monster_armor_class)
+            if monster_armor_class > -0.01:
+                monster_ac.append(monster_armor_class)
+                break
+            else:
+                print("That is invalid. Please try again. ")
         else:
             print("That is invalid. Please try again. ")
-    else:
-        print("That is invalid. Please try again. ")
-while True:
-    monster_dmg_modifier = input("What is the enemy's damage modifier? ")
-    if monster_dmg_modifier.isnumeric():
-        monster_dmg_modifier = int(monster_dmg_modifier)
-        if monster_dmg_modifier > -0.01:
-            break
+    while True:
+        monster_dmg_modifier = input("What is the enemy's damage modifier? ")
+        if monster_dmg_modifier.isnumeric():
+            monster_dmg_modifier = int(monster_dmg_modifier)
+            if monster_dmg_modifier > -0.01:
+                monster_damage_modifier.append(monster_dmg_modifier)
+                break
+            else:
+                print("That is invalid. Please try again. ")
         else:
             print("That is invalid. Please try again. ")
-    else:
-        print("That is invalid. Please try again. ")
+    amount -= 1
 
 while monster_hp >= 0:
     roll = (random.randint(1,20) + attack_bonus)
