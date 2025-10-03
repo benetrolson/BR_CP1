@@ -52,10 +52,10 @@ names = []
 while amount >= 0:
     while True:
         name = input("What is the name of this enemy? ")
-        if name in names:
+        if name in names or name.isnumeric():
             print("That name is invalid. Please try again. ")
-        elif name.isnumeric():
-            print("")
+        else:
+            break
     while True:
         monster_hp = input("What is the enemy's hp? ")
         if monster_hp.isnumeric():
@@ -94,6 +94,11 @@ while amount >= 0:
 while monster_hp >= 0:
     roll = (random.randint(1,20) + attack_bonus)
     monster_roll =  random.randint(1,20)
+    #while True:
+     #   monster = input("Which enemy are you attacking? (Please write the full name)")
+      #  if monster in names:
+       #     monster = 
+        #    break
     while True:
         dice = input("What is the dice you are using? ")
         if dice.isnumeric():
@@ -137,8 +142,8 @@ while monster_hp >= 0:
         print(f"The monster's health is now 0")
         break
     print("Your turn is over. ")
-    while True:
-        monster_dice = input("What is the dice the enemy is using? ")
+    for name in names:
+        monster_dice = input(f"What is the dice the {name} is using? ")
         if monster_dice.isnumeric():
             monster_dice = int(monster_dice)
             if monster_dice > 0:
@@ -149,7 +154,7 @@ while monster_hp >= 0:
             print("That is invalid. Please try again. ")
     if monster_roll > armor_class:
         if monster_roll == 20:
-            print("The monster rolled a critical! Their damage is doubled.")
+            print(f"The {name} rolled a critical! Their damage is doubled.")
             damage = random.randint(1,monster_dice) + random.randint(1,monster_dice) + monster_dmg_modifier
             player_hp -= damage
             if player_hp <= 0:
@@ -157,7 +162,7 @@ while monster_hp >= 0:
             else:
                 print(f"You took {damage} damage. You now have {player_hp}")
         else:
-            print("The monster hit!")
+            print(f"The {name} hit!")
             damage = random.randint(1,monster_dice) + monster_dmg_modifier
             player_hp -= damage
             if player_hp <= 0:
@@ -169,14 +174,14 @@ while monster_hp >= 0:
             attack = (random.randint(1,random.randint(1,10)) + dmg_modifier)
             monster_hp -= attack
             if monster_hp <= 0:
-                print(f"The monster took {attack} damage. It's health is now 0")
+                print(f"The {name} took {attack} damage. It's health is now 0")
             else:
-                print(f"The monster took {attack} damage. It's health is now {monster_hp}")
-        print("The monster missed!")
+                print(f"The {name} took {attack} damage. It's health is now {monster_hp}")
+        print(f"The {name} missed!")
     else:
         print("That is weird. You did something wrong. ")
     if player_hp <= 0:
         print(f"Your health is now 0. You lost")
         break
-    print("The monster's turn is over. ")
+    print(f"The {name}'s turn is over. ")
 print("Your turn is over. ")
