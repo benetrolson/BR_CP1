@@ -48,7 +48,14 @@ amount = amount_of_monster
 monster_health = []
 monster_ac = []
 monster_damage_modifier = []
+names = []
 while amount >= 0:
+    while True:
+        name = input("What is the name of this enemy? ")
+        if name in names:
+            print("That name is invalid. Please try again. ")
+        elif name.isnumeric():
+            print("")
     while True:
         monster_hp = input("What is the enemy's hp? ")
         if monster_hp.isnumeric():
