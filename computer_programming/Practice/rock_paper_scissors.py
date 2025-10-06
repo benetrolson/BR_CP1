@@ -173,10 +173,10 @@ while True:
         print("You lost!")
         print("""You chose scissors!
             _____________                                                                                                                                                               
- ........../          ___)__
-                      ______)
-                     _______)
-                  (______)
+ ........../          ___)_________
+                      _____________)
+                     ____________)
+                  (______)     
 -------,__________(_____)
 """)
         print("""The robot chose rock!    
@@ -210,3 +210,9 @@ while True:
         print(".")
         time.sleep(1)
         print(".")
+        robo_score += 5
+        score -= 10
+        secret = input("You have paid for your actions now you will never get to beat me EVER again! mwahahahahahahahha ")
+        if secret == "Bennett is the best":
+            score += 60
+        
