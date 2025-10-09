@@ -1,0 +1,45 @@
+#BHR 2nd tic tac toe pseudocode
+
+import random module
+
+set up board using nine variables: TOP_RIGHT, TOP_MIDDLE, MIDDLE_MIDDLE, etc.
+set up scores for how many times the player and robot have won(PLAYER_SCORE = 0 (next line)ROBOT_SCORE = 0)
+
+loop
+    if tic tac toe board empty
+        check if the player wants to quit
+        if they want to quit
+            exit the loop
+        decide who goes first using the random(1 for player, 2 for robot)
+    if robot goes first
+        loop
+            randomly select a number from 1 through 9
+            check if the respective variable is free
+            if it is free
+                exit the loop
+            else if it is not free
+                keep on going (this part is redundant in real code)
+            otherwise
+                just clear the variable because something broke
+        change the turn to the user(will skip over the users turn to the display phase)
+    else if user goes first (if the robot "if statement" is true, it will skip over this if statement)
+        loop
+            ask the user which box they want to select using numbers 1 through 9
+            check if the respective variable is free
+            if it is free
+                exit the loop
+            else if it is not free
+                keep on going (this part is redundant in real code)
+        change the turn to the robot's turn
+    mark the box as taken by the respective user or robot
+    set the variable used to transport the information to 0
+    display the tic tac toe board using f string(a way to insert variables into a string of text) and ascii art(a method of creating art in python)
+    go through every possible win situation to check if there is a win situation(if TOP_RIGHT == 1 and TOP_MIDDLE == 1 and TOP_LEFT == 1 or TOP_RIGHT == 2 and TOP_MIDDLE == 2 and TOP_LEFT == 2 etc. )
+    if the user won
+        display "congrats! you won! "
+        set all the variables for the boxes in tic tac toe to 0
+        add one to the player's score(PLAYER_SCORE += 1)
+    if the robot won
+        display "ha ha! you lost. "
+        set all the variables for the boxes in tic tac toe to 0
+        add one to the robot's score(ROBOT_SCORE += 1)
