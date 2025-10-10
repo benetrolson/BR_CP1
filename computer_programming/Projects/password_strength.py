@@ -15,7 +15,7 @@ while True:
     #if it is longer than 7 letters
     if password > 7:
         #add 1 to the password strength
-
+        strength += 1
     #otherwise
 
         #say that they need to make their password longer
