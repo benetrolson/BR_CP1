@@ -1,5 +1,6 @@
 #BHR 2nd password strength checker
 
+passwords = ["1234", "password", "qwerty", "123456", "123456789", "111111", "p@ssw0rd", "123123", "p@$$w0rd"]
 #loop
 while True:
     #reset the strength to 0
@@ -19,6 +20,9 @@ while True:
         strength += 5
     elif check == "hello":
         strength -= 105
+    elif check == "cheese":
+        print("Mmmmmmm. Delicous. ")
+        strength -= 5
     #Ask the user for the password
     password = input("Please write your prospective password. ")
     #if it is longer than 7 letters
@@ -93,3 +97,6 @@ while True:
         print("You and your password is a failure. ")
     else:
         print("You found the easter egg! Don't use it again. ")
+    if password in passwords:
+        print("Get more creative. ")
+        
