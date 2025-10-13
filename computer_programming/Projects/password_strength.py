@@ -19,8 +19,6 @@ while True:
         strength += 5
     elif check == "hello":
         strength -= 105
-    elif check == "Eve is the best. ":
-        strength = '"Plus two million points"'
     #Ask the user for the password
     password = input("Please write your prospective password. ")
     #if it is longer than 7 letters
@@ -91,6 +89,7 @@ while True:
         print("Your password is moderate. You have room to improve. ")
     elif strength == 1 or strength == 2:
         print("Your password is weak. Do better. ")
+    elif strength == 0:
+        print("You and your password is a failure. ")
     else:
         print("You found the easter egg! Don't use it again. ")
-
