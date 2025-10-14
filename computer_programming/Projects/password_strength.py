@@ -1,5 +1,6 @@
 #BHR 2nd password strength checker
 
+
 #loop
 while True:
     #reset the strength to 0
