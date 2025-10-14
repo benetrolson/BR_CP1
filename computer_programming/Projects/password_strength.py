@@ -1,6 +1,7 @@
 #BHR 2nd password strength checker
 
-passwords = ["1234", "password", "qwerty", "123456", "123456789", "111111", "p@ssw0rd", "123123", "p@$$w0rd"]
+import time
+passwords = ["1234", "password", "qwerty", "123456", "123456789", "123467890", "0987654321", "111111", "p@ssw0rd", "123123", "p@$$w0rd", "5678", "abcdefghijklmnopqrstuvwxyz", "aBcDeFgHiJkLmNoPqRsTuVwXyZ", "AbCdEfGhIjKlMnOpQrStUvWxYz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "qwertyuiop", "asdfghjkl", "asdfghjkl;'", "zxcvbnm,./", "/.,mnbvcxz", "';lkjhgfdsa", "lkjhgfdsa", "poiuytrewq"]
 #loop
 while True:
     #reset the strength to 0
@@ -100,5 +101,11 @@ while True:
     else:
         print("You found the easter egg! Don't use it again. ")
     if password in passwords:
-        print("Get more creative. ")
+        print("That is so boring and typical. Why did you choose this password? Get more creative. I don't really like that you did this. ")
+        x = 5
+        time.sleep(1)
+        while x:
+            print(".")
+            time.sleep(1)
+            x -= 1
         
