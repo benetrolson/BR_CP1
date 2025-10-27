@@ -19,15 +19,17 @@ def attack(action, attacking_stats, defending_stats):
         hurt = ("error")
     if damage < 0:
         damage = 0
+    if hurt < 0 and action != 3 or hurt > 0 and action == 3:
+        hurt = 0
     return(damage, hurt)
 
 
 while True:
     bird = input("Which bird are you? chicken(1), pigeon(2), duck(3)")
     if bird == "1":
-        player_stats = [50, 4, 10, 3]#order is health, defense, attack, damage, attack modifier, damage modifier
+        player_stats = [50, 4, 10, 3]#order is health, defense, attack, attack modifier
     elif bird == "2":
-        player_stats = [25, 3, 20, 6]
+        player_stats = [25, 3, 15, 5]
     elif bird == "3":
         player_stats = [75, 6, 5, 2]
     else:
