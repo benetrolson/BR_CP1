@@ -1,3 +1,4 @@
+#BHR 2nd combat program
 import random
 import time
 def attack(action, attacking_stats, defending_stats):
@@ -86,4 +87,3 @@ while True:
     else:
         print("Why did you have to break the game? ")
         time.sleep(0.3)
-        
