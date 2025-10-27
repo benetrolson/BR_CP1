@@ -48,7 +48,7 @@ while True:
         enemy = "duck"
     print(f"You have been ambushed by a {enemy}! Prepare for combat. ")
     time.sleep(0.3)
-    check = input("Do you want to have a guide to what each attack does? If so, write yes. If not, write anything. ")
+    check = input("Do you want to have a guide to what each attack does? If so, write yes. If not, write anything. ").lower()
     time.sleep(0.3)
     if check == "yes":
         print("To peck is to do basic damage without wounding oneself. \nTo claw is to do more damage but to do some damage to oneself. \nTo fly is to do weak damage but heal oneself. \nTo dive is to do a lot of damage but to do a lot of damage to oneself. ")
