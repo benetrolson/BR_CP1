@@ -1,9 +1,13 @@
 # BHR 2nd turtle race
 import turtle 
 import random 
+money = 500
 bet_choice = input("Which turtle do you want to bet on? If you don't want to bet on any, write anything. Blue(1), teal(2), green(3), orange(4), red(5). ")
 if bet_choice == "1" or "2" or "3" or "4" or "5":
+    print(f"You have ${money}. ")
     bet_amount = input("How much do you want to bet on this turtle? ")
+    #if money <= bet_amount:
+        
 drawer = turtle.Turtle()
 turtle1 = turtle.Turtle() 
 turtle2 = turtle.Turtle() 
