@@ -9,7 +9,6 @@ turtle2 = turtle.Turtle()
 turtle3 = turtle.Turtle() 
 turtle4 = turtle.Turtle() 
 turtle5 = turtle.Turtle() 
-turtles = [turtle1, turtle2, turtle3, turtle4, turtle5]
 drawer.color("black")
 drawer.speed(0)
 drawer.teleport(510, 500)
@@ -30,6 +29,7 @@ for i in range(50):
 drawer.hideturtle()
 while True:
     finish_order = []
+    turtles = [turtle1, turtle2, turtle3, turtle4, turtle5]
     print(f"You have ${money}. ")
     bet_choice = input("Which turtle do you want to bet on? If you don't want to bet on any, write anything. Blue(1), teal(2), green(3), orange(4), red(5). ")
     if bet_choice in ["1", "2", "3", "4", "5"]:
@@ -62,52 +62,58 @@ while True:
     turtle5.teleport(-500, -40) 
     while True:
         for turtle in turtles:
-            turtle.forward(random.randint(0,100) / 10)
+            turtle.forward(random.randint(-10,100) / 10)
+            turtle2.forward(0.1)
+            turtle5.backward(0.1)
         if turtle1.xcor() >= 500 and "1" not in finish_order:
-            turtle1.forward(30) 
+            turtle1.forward(50) 
             finish_order.append("1")
             turtle1.teleport(-1000, 1000)
+            turtle1.clear()
         if turtle2.xcor() >= 500 and "2" not in finish_order:
-            turtle2.forward(30) 
+            turtle2.forward(50) 
             finish_order.append("2")
             turtle2.teleport(-1000, 1000)
+            turtle2.clear()
         if turtle3.xcor() >= 500 and "3" not in finish_order:
-            turtle3.forward(30) 
+            turtle3.forward(50) 
             finish_order.append("3")
             turtle3.teleport(-1000, 1000)
+            turtle3.clear()
         if turtle4.xcor() >= 500 and "4" not in finish_order:
-            turtle4.forward(30) 
+            turtle4.forward(50) 
             finish_order.append("4")
             turtle4.teleport(-1000, 1000)
+            turtle4.clear()
         if turtle5.xcor() >= 500 and "5" not in finish_order:
-            turtle5.forward(30) 
+            turtle5.forward(50) 
             finish_order.append("5")
             turtle5.teleport(-1000, 1000)
+            turtle5.clear()
         if len(finish_order) == 5:
             break
     if finish_order[0] == bet_choice:
-        bet_amount *= 10
+        bet_amount *= 4
         money += bet_amount
         print("Your turtle finished in 1st place! ")
     elif finish_order[1] == bet_choice:
-        bet_amount *= 5
         money += bet_amount
         print("Your turtle finished in 2nd place! ")
     elif finish_order[2] == bet_choice:
-        money += bet_amount
         print("Your turtle finished in 3rd place! ")
-    else:
+    elif finish_order[3] == bet_choice:
         money -= bet_amount
-        if finish_order[3] == bet_choice:
-            print("Your turtle finished in 4th place! ")
-        elif:
-            print("Your turtle finished in last place! ")
-        else:
-            print("You chose not to bet this round. ")
-    if money <= 0 and patience < 5:
+        print("Your turtle finished in 4th place! ")
+    elif finish_order[4] == bet_choice:
+        print("Your turtle finished in last place! ")
+        bet_choice *= 2
+        money -= bet_amount
+    else:
+        print("You chose not to bet this round. ")
+    if money <= 0 and patience <= 5:
         print("Here is some pity money. I felt sorry for you. ")
         money = 1000
         patience += 1
-    if patience == 5:
+    if patience >= 5:
         print("JK. You asked for too much money! I'm not giving any money to you! You are being kicked out! ")
         break
