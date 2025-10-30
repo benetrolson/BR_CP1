@@ -3,6 +3,53 @@ import turtle
 import random 
 patience = 0
 money = 500
+def setup():
+    for turtle in turtles:
+        turtle.speed(0)
+    for turtle in turtles:
+        turtle.shape("turtle")
+    turtle1.color("blue") 
+    turtle2.color("teal") 
+    turtle3.color("green") 
+    turtle4.color("orange") 
+    turtle5.color("red")  
+    turtle1.teleport(-500, 40)
+    turtle2.teleport(-500, 20) 
+    turtle3.teleport(-500, 0) 
+    turtle4.teleport(-500, -20) 
+    turtle5.teleport(-500, -40) 
+def move():
+    while True:
+        for turtle in turtles:
+            turtle.forward(random.randint(-10,100) / 10)
+            turtle2.forward(0.1)
+            turtle5.backward(0.1)
+def winner():
+    if turtle1.xcor() >= 500 and "1" not in finish_order:
+        turtle1.forward(50) 
+        finish_order.append("1")
+        turtle1.teleport(-1000, 1000)
+        turtle1.clear()
+    if turtle2.xcor() >= 500 and "2" not in finish_order:
+        turtle2.forward(50) 
+        finish_order.append("2")
+        turtle2.teleport(-1000, 1000)
+        turtle2.clear()
+    if turtle3.xcor() >= 500 and "3" not in finish_order:
+        turtle3.forward(50) 
+        finish_order.append("3")
+        turtle3.teleport(-1000, 1000)
+        turtle3.clear()
+    if turtle4.xcor() >= 500 and "4" not in finish_order:
+        turtle4.forward(50) 
+        finish_order.append("4")
+        turtle4.teleport(-1000, 1000)
+        turtle4.clear()
+    if turtle5.xcor() >= 500 and "5" not in finish_order:
+        turtle5.forward(50) 
+        finish_order.append("5")
+        turtle5.teleport(-1000, 1000)
+        turtle5.clear()
 drawer = turtle.Turtle()
 turtle1 = turtle.Turtle() 
 turtle2 = turtle.Turtle() 
@@ -30,6 +77,7 @@ drawer.hideturtle()
 while True:
     finish_order = []
     turtles = [turtle1, turtle2, turtle3, turtle4, turtle5]
+    setup()
     print(f"You have ${money}. ")
     bet_choice = input("Which turtle do you want to bet on? If you don't want to bet on any, write anything. Blue(1), teal(2), green(3), orange(4), red(5). ")
     if bet_choice in ["1", "2", "3", "4", "5"]:
@@ -46,50 +94,8 @@ while True:
                 break
     else:
         bet_amount = 0
-    for turtle in turtles:
-        turtle.speed(0)
-    for turtle in turtles:
-        turtle.shape("turtle")
-    turtle1.color("blue") 
-    turtle2.color("teal") 
-    turtle3.color("green") 
-    turtle4.color("orange") 
-    turtle5.color("red")  
-    turtle1.teleport(-500, 40)
-    turtle2.teleport(-500, 20) 
-    turtle3.teleport(-500, 0) 
-    turtle4.teleport(-500, -20) 
-    turtle5.teleport(-500, -40) 
-    while True:
-        for turtle in turtles:
-            turtle.forward(random.randint(-10,100) / 10)
-            turtle2.forward(0.1)
-            turtle5.backward(0.1)
-        if turtle1.xcor() >= 500 and "1" not in finish_order:
-            turtle1.forward(50) 
-            finish_order.append("1")
-            turtle1.teleport(-1000, 1000)
-            turtle1.clear()
-        if turtle2.xcor() >= 500 and "2" not in finish_order:
-            turtle2.forward(50) 
-            finish_order.append("2")
-            turtle2.teleport(-1000, 1000)
-            turtle2.clear()
-        if turtle3.xcor() >= 500 and "3" not in finish_order:
-            turtle3.forward(50) 
-            finish_order.append("3")
-            turtle3.teleport(-1000, 1000)
-            turtle3.clear()
-        if turtle4.xcor() >= 500 and "4" not in finish_order:
-            turtle4.forward(50) 
-            finish_order.append("4")
-            turtle4.teleport(-1000, 1000)
-            turtle4.clear()
-        if turtle5.xcor() >= 500 and "5" not in finish_order:
-            turtle5.forward(50) 
-            finish_order.append("5")
-            turtle5.teleport(-1000, 1000)
-            turtle5.clear()
+        move()
+        winner()
         if len(finish_order) == 5:
             break
     if finish_order[0] == bet_choice:
