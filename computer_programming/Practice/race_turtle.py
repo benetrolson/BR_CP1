@@ -22,8 +22,8 @@ def move():
     while True:
         for turtle in turtles:
             turtle.forward(random.randint(-10,100) / 10)
-            turtle2.forward(0.1)
-            turtle5.backward(0.1)
+            turtle2.forward(0.025)
+            turtle5.backward(0.025)
 def winner():
     if turtle1.xcor() >= 500 and "1" not in finish_order:
         turtle1.forward(50) 
@@ -50,6 +50,7 @@ def winner():
         finish_order.append("5")
         turtle5.teleport(-1000, 1000)
         turtle5.clear()
+    return(finish_order)
 drawer = turtle.Turtle()
 turtle1 = turtle.Turtle() 
 turtle2 = turtle.Turtle() 
@@ -95,7 +96,7 @@ while True:
     else:
         bet_amount = 0
         move()
-        winner()
+        finish_order[""] = winner()
         if len(finish_order) == 5:
             break
     if finish_order[0] == bet_choice:
