@@ -1,103 +1,107 @@
 # BHR 2nd maze generator
 import turtle
 import random
+bob = turtle.Turtle()
+a = random.randint(0,2)
+b = 3
 
-# Set up the screen
-wn = turtle.Screen()
-wn.bgcolor("white")
-wn.title("Maze Generator")
+def randomizer():
+    rows = [[a, a, a, a, a, a], [a, a, a, a, a, a], [a, a, a, a, a, a], [a, a, a, a, a, a],[a, a, a, a, a, a], [a, a, a, a, a, a]]
+    columns = [[a, a, a, a, a, a], [a, a, a, a, a, a], [a, a, a, a, a, a], [a, a, a, a, a, a],[a, a, a, a, a, a], [a, a, a, a, a, a]]
+    new_rows = []
+    new_columns = []
+    new_row = []
+    new_column = []
+    for row in rows:
+        for i in row:
+            wall = random.randint(0, 1)
+            new_row.append(wall)
+        new_rows.append(new_row)
+    for column in columns:
+        for i in column:
+            wall = random.randint(0, 1)
+            new_column.append(wall)
+        new_columns.append(new_column)
+    return(new_rows, new_columns)
 
-# Global variables for player position
-player_x = 0
-player_y = 0
+def maze_checker():
+    while True:
+        rows, columns = randomizer()
+        row_size = len(rows) - 1
+        column_size = len(rows) - 1
+        visited = []
+        stack = [(0, 0)]
+        while True:
+            if stack == []:
+                break
+            x, y = stack.pop()
+            if x == row_size - 1 and y == column_size - 1:
+                return rows, columns
+            if (x, y) in visited:
+                continue
+            visited.append((x, y))
+            if x < row_size -1 and columns[y][x+1] == 0:#right
+                stack.append(((x+1), y))
+            if y < column_size -1 and rows[x][y+1] == 0:#up
+                stack.append((x, (y+1)))
+            if x > 0 and columns[y][x+1] == 0:#left
+                stack.append(((x-1), y))
+            if y > 0 and rows[x][y+1] == 0:#down
+                stack.append((x, (y-1)))
 
-# Maze size (will be set by the player)
-maze_width = 10
-maze_height = 10
-grid_size = 10
-
-# Maze grid (0 = empty, 1 = wall)
-maze = []
-
-# Ask player for maze size
-maze_width = int(input("How wide do you want the maze to be? "))
-maze_height = int(input("How tall do you want the maze to be? "))
-
-# Function to create a random maze
-def generate_maze():
-    global maze
-    maze = []
-    for y in range(maze_height):
-        row = []
-        for x in range(maze_width):
-            if random.random() < 0.2:  # 20% chance of a wall
-                row.append(1)
+def maze_maker(bob):
+    x = 1
+    rows, columns = maze_checker()
+    for row in rows:
+        for piece in row:
+            if piece != 0:
+                bob.pendown()
+                bob.forward(10)
             else:
-                row.append(0)
-        maze.append(row)
+                bob.penup()
+                bob.forward(10)
+        bob.pendown()#teleport the turtle to the left side so that the turtle doesn't reverse the order
+        if x == 1:
+            bob.left(90)
+            bob.pendown()
+            bob.backward(10)
+            bob.forward(20)
+            bob.left(90)
+            x = 2
+        elif x == 2:
+            bob.right(90)
+            bob.pendown()
+            bob.backward(10)
+            bob.forward(20)
+            bob.right(90)
+            x = 1
+    bob.teleport(0,0)
+    bob.left(90)
+    for column in columns:
+        for piece in column:
+            if piece != 0:
+                bob.pendown()
+                bob.forward(10)
+            else:
+                bob.penup()
+                bob.forward(10)
+        bob.pendown()
+        if column == columns[-1][-1]:
+            x = 0
+        if x == 1:
+            bob.right(90)
+            bob.pendown()
+            bob.backward(10)
+            bob.forward(20)
+            bob.right(90)
+            x += 1
+        elif x == 2:
+            bob.left(90)
+            bob.pendown()
+            bob.backward(10)
+            bob.forward(20)
+            bob.left(90)
+            x -= 1
+maze_maker(bob)
+turtle.done()
 
-# Function to draw the maze
-def draw_maze():
-    turtle.clear()
-    t = turtle.Turtle()
-    t.speed(0)
-    t.penup()
-    for y in range(maze_height):
-        for x in range(maze_width):
-            t.goto(x * grid_size - (maze_width * grid_size)//2, 
-                   y * grid_size - (maze_height * grid_size)//2)
-            if maze[y][x] == 1:
-                t.dot(grid_size, "black")
-    # Draw player
-    t.goto(player_x * grid_size - (maze_width * grid_size)//2, 
-           player_y * grid_size - (maze_height * grid_size)//2)
-    t.dot(grid_size, "blue")
-
-# Movement functions
-def move_up():
-    global player_y
-    if player_y < maze_height - 1 and maze[player_y + 1][player_x] == 0:
-        player_y += 1
-        check_finish()
-    draw_maze()
-
-def move_down():
-    global player_y
-    if player_y > 0 and maze[player_y - 1][player_x] == 0:
-        player_y -= 1
-        check_finish()
-    draw_maze()
-
-def move_left():
-    global player_x
-    if player_x > 0 and maze[player_y][player_x - 1] == 0:
-        player_x -= 1
-        check_finish()
-    draw_maze()
-
-def move_right():
-    global player_x
-    if player_x < maze_width - 1 and maze[player_y][player_x + 1] == 0:
-        player_x += 1
-        check_finish()
-    draw_maze()
-
-# Check if player reached the goal (top-right corner)
-def check_finish():
-    global player_x, player_y
-    if player_x == maze_width - 1 and player_y == maze_height - 1:
-        player_x = 0
-        player_y = 0
-        generate_maze()
-
-# Set up key bindings
-wn.listen()
-wn.onkey(move_up, "w")
-wn.onkey(move_down, "s")
-wn.onkey(move_left, "a")
-wn.onkey(move_right, "d")
-
-# Initialize
-generate_maze()
-draw_maze()
-wn.mainloop()
