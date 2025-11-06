@@ -6,22 +6,31 @@ a = random.randint(0,2)
 b = 3
 
 def randomizer():
-    rows = [[a, a, a, a, a, a], [a, a, a, a, a, a], [a, a, a, a, a, a], [a, a, a, a, a, a],[a, a, a, a, a, a], [a, a, a, a, a, a]]
-    columns = [[a, a, a, a, a, a], [a, a, a, a, a, a], [a, a, a, a, a, a], [a, a, a, a, a, a],[a, a, a, a, a, a], [a, a, a, a, a, a]]
+    rows = [[a, b, a, a, a, a], 
+            [b, a, a, a, a, a], 
+            [b, a, a, a, a, a], 
+            [b, a, a, a, a, a], 
+            [b, a, a, a, a, a], 
+            [a, a, a, a, a, a]]
     new_rows = []
     new_columns = []
     new_row = []
     new_column = []
     for row in rows:
         for i in row:
-            wall = random.randint(0, 1)
-            new_row.append(wall)
+            if row == rows[-1]:
+                wall = random.randint(1,2)
+                new_row.append(wall)
+                new_column.append(wall)
+            else:
+                row_wall = random.randint(0, 1)
+                new_row.append(row_wall)
+                column_wall = random.randint(0, 1)
+                new_column.append(column_wall)
         new_rows.append(new_row)
-    for column in columns:
-        for i in column:
-            wall = random.randint(0, 1)
-            new_column.append(wall)
+        new_row = []
         new_columns.append(new_column)
+        new_column = []
     return(new_rows, new_columns)
 
 def maze_checker():
@@ -50,7 +59,8 @@ def maze_checker():
                 stack.append((x, (y-1)))
 
 def maze_maker(bob):
-    x = 1
+    x = 10
+    y = 10
     rows, columns = maze_checker()
     for row in rows:
         for piece in row:
@@ -60,21 +70,8 @@ def maze_maker(bob):
             else:
                 bob.penup()
                 bob.forward(10)
-        bob.pendown()#teleport the turtle to the left side so that the turtle doesn't reverse the order
-        if x == 1:
-            bob.left(90)
-            bob.pendown()
-            bob.backward(10)
-            bob.forward(20)
-            bob.left(90)
-            x = 2
-        elif x == 2:
-            bob.right(90)
-            bob.pendown()
-            bob.backward(10)
-            bob.forward(20)
-            bob.right(90)
-            x = 1
+        bob.teleport(0, x)
+        x += 10
     bob.teleport(0,0)
     bob.left(90)
     for column in columns:
@@ -85,23 +82,8 @@ def maze_maker(bob):
             else:
                 bob.penup()
                 bob.forward(10)
-        bob.pendown()
-        if column == columns[-1][-1]:
-            x = 0
-        if x == 1:
-            bob.right(90)
-            bob.pendown()
-            bob.backward(10)
-            bob.forward(20)
-            bob.right(90)
-            x += 1
-        elif x == 2:
-            bob.left(90)
-            bob.pendown()
-            bob.backward(10)
-            bob.forward(20)
-            bob.left(90)
-            x -= 1
+        bob.teleport(y, 0)
+        y += 10
+    bob.hideturtle()
 maze_maker(bob)
 turtle.done()
-
