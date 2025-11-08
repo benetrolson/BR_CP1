@@ -23,9 +23,9 @@ def randomizer():
                 new_row.append(wall)
                 new_column.append(wall)
             else:
-                row_wall = random.randint(-2, 1)
+                row_wall = random.choice([0, 0, 1])
                 new_row.append(row_wall)
-                column_wall = random.randint(-2, 1)
+                column_wall = random.choice([0, 0, 0, 1])
                 new_column.append(column_wall)
         new_rows.append(new_row)
         new_row = []
@@ -37,25 +37,25 @@ def maze_checker():
     while True:
         rows, columns = randomizer()
         row_size = len(rows) - 1
-        column_size = len(rows) - 1
+        column_size = len(rows[0]) - 1
         visited = []
         stack = [(0, 0)]
         while True:
             if stack == []:
                 break
             x, y = stack.pop()
-            if x == row_size - 1 and y == column_size - 1:
+            if x == row_size and y == column_size:
                 return rows, columns
             if (x, y) in visited:
                 continue
             visited.append((x, y))
-            if x < row_size -1 and columns[y][x+1] == 0:#right
+            if x < row_size -1 and columns[y][x+1] != 1:#right
                 stack.append(((x+1), y))
-            if y < column_size -1 and rows[x][y+1] == 0:#up
-                stack.append((x, (y+1)))
-            if x > 0 and columns[y][x+1] == 0:#left
+            if y > 0 and rows[y-1][x] != 1:#up
+                stack.append((x, (y-1)))
+            if x > 0 and columns[y][x-1] != 1:#left
                 stack.append(((x-1), y))
-            if y > 0 and rows[x][y+1] == 0:#down
+            if y > column_size -1 and rows[y+1][x] != 1:#down
                 stack.append((x, (y-1)))
 
 def maze_maker(bob):
@@ -64,9 +64,9 @@ def maze_maker(bob):
     bob.teleport(20, 0)
     bob.forward(120)
     bob.teleport(0,0)
-    bob.left(90)
+    bob.setheading(90)
     bob.forward(140)
-    bob.right(90)
+    bob.setheading(0)
     rows, columns = maze_checker()
     bob.teleport(0, x)
     x += 20
@@ -83,7 +83,7 @@ def maze_maker(bob):
     bob.pendown()
     bob.forward(120)
     bob.teleport(0,0)
-    bob.left(90)
+    bob.setheading(90)
     bob.teleport(y, 0)
     y += 20
     for column in columns:
