@@ -36,27 +36,27 @@ def randomizer():
 def maze_checker():
     while True:
         rows, columns = randomizer()
-        row_size = len(rows) - 1
-        column_size = len(rows[0]) - 1
-        visited = {}
+        row_size = len(rows)
+        column_size = len(rows[0])
+        visited = set()
         stack = [(0, 0)]
         while True:
             if stack == []:
                 break
             x, y = stack.pop()
-            if x == row_size and y == column_size:
+            if x == row_size - 1 and y == column_size - 1:
                 return rows, columns
             if (x, y) in visited:
                 continue
-            visited.append((x, y))
-            if x < row_size -1 and columns[y][x] != 1:#right
+            visited.add((x, y))
+            if x + 1 < row_size and columns[y][x] != 1:#right
                 stack.append(((x+1), y))
-            if y > 0 and rows[y-1][x] != 1:#up
+            if y - 1 >= 0 and rows[y-1][x] != 1:#up
                 stack.append((x, (y-1)))
-            if x > 0 and columns[y][x-1] != 1:#left
+            if x - 1 >= 0 and columns[y][x-1] != 1:#left
                 stack.append(((x-1), y))
-            if y > column_size -1 and rows[y][x] != 1:#down
-                stack.append((x, (y-1)))
+            if y + 1 < column_size and rows[y][x] != 1:#down
+                stack.append((x, (y+1)))
 
 def maze_maker(bob):
     x = 20
@@ -68,8 +68,8 @@ def maze_maker(bob):
     bob.forward(140)
     bob.setheading(0)
     rows, columns = maze_checker()
-    bob.teleport(0, x)
-    x += 20
+    bob.teleport(0, y)
+    y += 20
     for row in rows:
         for piece in row:
             if piece == 1:
@@ -78,14 +78,14 @@ def maze_maker(bob):
             else:
                 bob.penup()
                 bob.forward(20)
-        bob.teleport(0, x)
-        x += 20
+        bob.teleport(0, y)
+        y += 20
     bob.pendown()
     bob.forward(120)
     bob.teleport(0,0)
     bob.setheading(90)
-    bob.teleport(y, 0)
-    y += 20
+    bob.teleport(x, 0)
+    x += 20
     for column in columns:
         for piece in column:
             if piece == 1:
@@ -94,8 +94,8 @@ def maze_maker(bob):
             else:
                 bob.penup()
                 bob.forward(20)
-        bob.teleport(y, 0)
-        y += 20
+        bob.teleport(x, 0)
+        x += 20
     bob.pendown()
     bob.forward(140)
     bob.hideturtle()
