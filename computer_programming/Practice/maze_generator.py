@@ -38,7 +38,7 @@ def maze_checker():
         rows, columns = randomizer()
         row_size = len(rows) - 1
         column_size = len(rows[0]) - 1
-        visited = []
+        visited = {}
         stack = [(0, 0)]
         while True:
             if stack == []:
@@ -49,13 +49,13 @@ def maze_checker():
             if (x, y) in visited:
                 continue
             visited.append((x, y))
-            if x < row_size -1 and columns[y][x+1] != 1:#right
+            if x < row_size -1 and columns[y][x] != 1:#right
                 stack.append(((x+1), y))
             if y > 0 and rows[y-1][x] != 1:#up
                 stack.append((x, (y-1)))
             if x > 0 and columns[y][x-1] != 1:#left
                 stack.append(((x-1), y))
-            if y > column_size -1 and rows[y+1][x] != 1:#down
+            if y > column_size -1 and rows[y][x] != 1:#down
                 stack.append((x, (y-1)))
 
 def maze_maker(bob):
