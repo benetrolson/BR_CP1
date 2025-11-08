@@ -49,13 +49,13 @@ def maze_checker():
             if (x, y) in visited:
                 continue
             visited.add((x, y))
-            if x + 1 < column_size and y < len(columns) and x < len(columns[y]) and columns[y][x] != 1:#right
+            if x + 1 < row_size and columns[y][x] != 1:#right
                 stack.append(((x+1), y))
-            if y - 1 >= 0 and x < len(rows[y-1]) and rows[y-1][x] != 1:#up
+            if y - 1 >= 0 and rows[y-1][x] != 1:#up
                 stack.append((x, (y-1)))
-            if x - 1 >= 0 and y < len(columns) and x - 1 < len(columns[y]) and columns[y][x-1] != 1:#left
+            if x - 1 >= 0 and columns[y][x-1] != 1:#left
                 stack.append(((x-1), y))
-            if y + 1 < row_size and x < len(rows[y]) and rows[y][x] != 1:#down
+            if y + 1 < column_size and rows[y][x] != 1:#down
                 stack.append((x, (y+1)))
 
 def maze_maker(bob):
