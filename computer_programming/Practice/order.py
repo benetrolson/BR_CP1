@@ -3,29 +3,30 @@
 #set up the menu
 menu = {
     "main": {
-        "chocolate ice cream": 5,
-        "vanilla ice cream": 5,
-        "strawberry ice cream": 10,
-        "neapolitan ice cream": 10,
-        "nutella ice cream": 15,
-        "cake ice cream": 15,
-        "none": 0
+        "Chocolate Ice Cream": 5,
+        "Vanilla Ice Cream": 5,
+        "Strawberry Ice Cream": 10,
+        "Neapolitan Ice Cream": 10,
+        "Nutella Ice Cream": 15,
+        "Cake Ice Cream": 15, 
+        "": 0
     }, 
     "side": {
-        "french fries": 1, 
-        "potato salad": 2,
-        "fried crickets": 2, #I've had these before, so you can't say that this is not a feasible food. 
-        "chocolate chips": 3,
-        "cake": 10,
-        "none": 0
+        "French Fries": 1, 
+        "Potato Salad": 2,
+        "Fried Crickets": 2, #I've had these before, so you can't say that this is not a feasible food. 
+        "Chocolate Chips": 3,
+        "Cake": 10, 
+        "": 0
     },
     "drink": {
-        "Amazon water": 50, 
-        "Indian Ocean water": 50,
-        "filtered human blood": 500,
-        "melted gold": -20,#No takeout
-        "human sweat": 2,
-        "none": 0
+        "Amazon Water": 50, 
+        "Indian Ocean Water": 50,
+        "Filtered Human Blood": 500,
+        "Melted Gold": -20,#No takeout
+        "Human Sweat": 2,
+        "Dihydrogen monoxide": 1000,
+        "": 0
     }
 }
 
@@ -57,6 +58,8 @@ def validation(dictionary, menu_choice, side_choice, drink_choice):
     else:
         #return false
         return False
+    #if everything is fine, then give the cost
+    return cost
 
 
 
