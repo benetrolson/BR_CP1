@@ -1,5 +1,5 @@
 #BHR 2nd order up
-
+import random
 #set up the menu
 menu = {
     "main": {
@@ -25,19 +25,19 @@ menu = {
         "Filtered Human Blood": 500,
         "Melted Gold": -20,#No takeout
         "Human Sweat": 2,
-        "Dihydrogen monoxide": 1000,
+        "Dihydrogen Monoxide": 1000,
         "": 0
     }
 }
 
 #set up the function to check the menu 
-def validation(dictionary, menu_choice, side_choice, drink_choice):
+def validation(dictionary, main_choice, side_choice, drink_choice):
     #reset cost
     cost = 0
     #check if the menu choice is in the menu main dishes
-    if menu_choice in dictionary["main"]:
+    if main_choice in dictionary["main"]:
         #add the price
-        cost += dictionary["main"][menu_choice]
+        cost += dictionary["main"][main_choice]
     #otherwise
     else:
         #return false
@@ -58,10 +58,34 @@ def validation(dictionary, menu_choice, side_choice, drink_choice):
     else:
         #return false
         return False
+    #do a forced tip
+    cost *= random.randint(2, 10)
+    #add tax
+    cost *= (1 + (random.randint(1, 9) / 10))
     #if everything is fine, then give the cost
     return cost
 
-
-
+#infinite loop
+while True:
+    #check what they want for their main food
+    main_choice = input("What do you want for your main meal? Chocolate Ice Cream, Vanilla Ice Cream, Strawberry Ice Cream, Neapolitan Ice Cream, Nutella Ice Cream, Cake Ice Cream. ").title().strip()
+    #check what they want for their side
+    side_choice = input("What do you want for your side? French fries, Potato salad, Fried crickets, Chocolate chips, Cake. ").title().strip()
+    #check what they want for their drink
+    drink_choice = input("What do you want for your drink? Amazon water, Indian Ocean water, Filtered human blood, Human sweat, Dihydrogen monoxide. ").title().strip()
+    #check if they want to revise their order
+    check = input("Do you want to revise your order? If so, please answer 'yes'. ").strip().lower()
+    #if they do
+    if check == "yes":
+        #restart the loop
+        continue
+    #run the function
+    cost = validation(menu, main_choice, side_choice, drink_choice)
+    #display the order and the bill
+    check = input(f"You ordered {main_choice}, {side_choice}, and {drink_choice}. Your bill is {cost} with a tip. ")
+    #if their drink is gold
+    if drink_choice == "Melted Gold":
+        #they wake up in a hospital, their throat scalded and a surgery preformed to remove the gold
+        check = input("You wake up in a hospital with your throat scalded and a pain in your stomach. You then learn that the hospital had preformed surgery to get the gold out of you. Your tongue was disentagrated in the first few seconds of drinking the gold, and now you will have to eat and drink through those tube things. ")
 
 
