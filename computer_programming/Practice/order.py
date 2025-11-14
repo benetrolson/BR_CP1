@@ -42,7 +42,7 @@ def validation(dictionary, main_choice, side_choices, drink_choice):
     #otherwise
     else:
         #return false
-        return False
+        return None
     for side_choice in side_choices:
         #check if the side choice is in the menu side dishes
         if side_choice in dictionary["side"]:
@@ -51,7 +51,7 @@ def validation(dictionary, main_choice, side_choices, drink_choice):
         #otherwise
         else:
             #return false
-            return False
+            return None
     #do the same for the drink
     if drink_choice in dictionary["drink"]:
         #add the price
@@ -59,41 +59,44 @@ def validation(dictionary, main_choice, side_choices, drink_choice):
     #otherwise
     else:
         #return false
-        return False
-    #do a forced tip
-    cost *= random.randint(2, 10)
-    #add tax
-    cost *= (1 + (random.randint(1, 9) / 10))
+        return None
+    if cost > 0:
+        #do a forced tip
+        cost *= (1 + (random.randint(2, 3) / 10))
+        #add tax
+        cost *= (1 + (random.randint(1, 3) / 10))
     #if everything is fine, then give the cost
     return cost
 
 #infinite loop
 while True:
+    side_choices = []
     #check what they want for their main food
-    main_choice = input("What do you want for your main meal? Chocolate Ice Cream, Vanilla Ice Cream, Strawberry Ice Cream, Neapolitan Ice Cream, Nutella Ice Cream, Cake Ice Cream. ").title().strip()
+    main_choice = input("What do you want for your main meal? Chocolate Ice Cream, Vanilla Ice Cream, Strawberry Ice Cream, Neapolitan Ice Cream, Nutella Ice Cream, Cake Ice Cream. ").title().strip().rstrip(".")
     #check what they want for their side
-    side_choice = input("What do you want for your side? French fries, Potato salad, Fried crickets, Chocolate chips, Cake. ").title().strip()
+    side_choice = input("What do you want for your side? French fries, Potato salad, Fried crickets, Chocolate chips, Cake. ").title().strip().rstrip(".")
     side_choices.append(side_choice)
     #check what they want for their side
-    side_choice = input("What do you want for your side? French fries, Potato salad, Fried crickets, Chocolate chips, Cake. ").title().strip()
+    side_choice = input("What do you want for your second side? French fries, Potato salad, Fried crickets, Chocolate chips, Cake. ").title().strip().rstrip(".")
     side_choices.append(side_choice)
     #check what they want for their drink
-    drink_choice = input("What do you want for your drink? Amazon water, Indian Ocean water, Filtered human blood, Human sweat, Dihydrogen monoxide. ").title().strip()
+    drink_choice = input("What do you want for your drink? Amazon water, Indian Ocean water, Filtered human blood, Human sweat, Dihydrogen monoxide. ").title().strip().rstrip(".")
     #check if they want to revise their order
-    check = input("Do you want to revise your order? If so, please answer 'yes'. ").strip().lower()
+    check = input("Do you want to revise your order? If so, please answer 'yes'. If you want to leave, answer 'quit'. ").strip().lower().rstrip(".")
     #if they do
     if check == "yes":
         #restart the loop
         continue
+    elif check == "quit":
+        break
     #run the function
     cost = validation(menu_1, main_choice, side_choices, drink_choice)
-    if cost != False:
+    if cost is not None:
     #display the order and the bill
         check = input(f"You ordered {main_choice}, {side_choices[0]}, {side_choices[1]}, and {drink_choice}. Your bill is {cost} with a tip. ")
-        side_choices = []
         #if their drink is gold
-        if drink_choice == "Melted Gold" or drink_choice == "6":
+        if drink_choice == "Melted Gold":
             #they wake up in a hospital, their throat scalded and a surgery preformed to remove the gold
             check = input("You wake up in a hospital with your throat scalded and a pain in your stomach. You then learn that the hospital had preformed surgery to get the gold out of you. Your tongue was disentagrated in the first few seconds of drinking the gold, and now you will have to eat and drink through those tube things. ")
     else:
-        print("You did not order succesfuly. ")
+        print("You did not order succesfuly. You must have done something wrong. ")
