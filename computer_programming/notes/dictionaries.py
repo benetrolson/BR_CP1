@@ -15,7 +15,7 @@ avatar = {
         "Aang": "Will you go penguin sliding with me? "
     }
 }
-print(avatar["earth"]["Toph"])
+print(avatar["fire"]["Uncle Iroh"])
 
 person = {
     #key:value,
