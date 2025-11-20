@@ -1,2 +1,2 @@
 #BHR 2nd squaring numbers
-list(map(lambda n:print(f"{n}^2={n**2}"),range(99)))
+list(map(lambda n:print(f"{n}^2={n**2}"),range(99)))#use the lambda to add a function to square each number, use a map and the range to go thorugh the function 9 times, and change it to a list to make it work
