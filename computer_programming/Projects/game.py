@@ -4,40 +4,40 @@ import random
 # #Set the player stats in a definition:
 player_stats = {
 # 	#Stats:
-    "stats": {
+"stats": {
 # 		#Intelligence: 50
         "intelligence": 50,
 # 		#Strength: 50
         "strength": 50,
 # 		#Health: 50
         "health": 50
-    },
+},
 # 	#Weapons: List of all the weapons that the player has
-    "weapons": {
+"weapons": {
 # 	#Equipped: 
         "equipped": {
 # 		#Weapon 1: cooldown
-            "weapon1": 0,
+        "weapon1": 0,
 # 		#Weapon 2: cooldown
-            "weapon2" : 0,
+        "weapon2" : 0,
 # 		#Weapon 3: cooldown
-            "weapon3": 0,
+        "weapon3": 0,
 # 		#Weapon 4: cooldown
-            "weapon4": 0
+        "weapon4": 0
         },
         "unequipped": [],
-    },
+},
 # 	#Health potions: 0
-    "health_potions": 0,
+"health_potions": 0,
 # 	#Necklace: whichever necklace they have equipped
-    "necklace": "",
+"necklace": "",
 # 	#Location: Beginning
-    "location": "Beginning"
-    }
+"location": "Beginning"
+}
 # #Set the enemy stats in a definition:
 enemies = {
 # 	Kid’s stats:
-    "kid": {
+"kid": {
 # 		Weapon can either be sword, axe, spear, or club
         "weapon1": random.choice["sword", "spear", "axe", "club"],
 # 		Health is 20
@@ -46,7 +46,7 @@ enemies = {
         "strength": 20
         },
 # 	Adult’s stats:
-    "adult": {
+"adult": {
 # 		Weapon can either be sword, axe, spear, or club
         "weapon1": random.choice["sword", "spear", "axe", "club"],
 #       Weapon can either be sword, axe, spear, or club
@@ -57,7 +57,7 @@ enemies = {
         "strength": 40
         },
 # 	Old’s stats:
-    "old": {
+"old": {
 # 		Weapon can either be sword, axe, spear, or club
         "weapon1": random.choice["sword", "spear", "axe", "club"],
 #       Weapon can either be sword, axe, spear, or club
@@ -70,101 +70,178 @@ enemies = {
         "strength": 50
         },
 # 	Gatekeeper’s stats:
+"gatekeeper": {
 # 		Weapon is axe
+        "weapon":"axe",
 # #Weapon is club
+        "weapon": "club",
 # #Weapon is beak
+        "weapon": "beak",
 # 		Health is 50
+        "health": 50,
 # 		Strength is 50
+        "strength": 50
+},
 # 	Boss’s stats:
+        "boss":  {
 # 		Weapon is axe
+                "weapon1": "axe",
 # #Weapon is club
+                "weapon2": "club",
 # #Weapon is sword
+                "weapon3": "sword",
 # #Weapon is spear
-# #Weapon is beak
+                "weapon4": "sword",
 # 		Health is 60
+                "health": 60,
 # 		Strength is 60
-    }
+                "strength": 60
+}
+}
 # #Set the weapon stats in a definition(for example):
+weapons = {
 # 	Beak
+        "beak": {
 # 		Damage is 1
+                "dmg": 1,
 # 		Cooldown is 0
+                "cooldown": 0
+        },
 # 	Sword:
+        "sword": {
 # 		Damage is 5
+                "dmg": 5,
 # 		Cooldown is 2
+                "cooldown": 2
+        },
 # 	Axe:
+        "axe": {
 # 		Damage is 6
+                "dmg": 6,
 # 		Cooldown is 4
+                "cooldown": 4
+        },
 # 	Spear:
+        "spear": {
 # 		Damage is 3
+                "dmg": 3,
 # 		Cooldown is 1
+                "cooldown": 1
+        },
 # 	Club:
+        "club": {
 # 		Damage is 4
+                "dmg": 4,
 # 		Cooldown is 3
+                "cooldown": 3
+        },
 # 	Health potion:
+        "hp potion": {
 # 		Heals 10 health
+                "heal": 10,
 # 		Cooldown is 0
+                "cooldown": 0
+        },
 # 	Health necklace:
+        "health necklace": {
 # 		Adds 20 health
-# 		Cooldown is 0
+                "health": 20
+        },
 # 	Strength necklace:
+        "strength necklace": {
 # 		Adds 20 strength
-# 		Cooldown is 0
+                "strength": 20
+        },
 # 	Intelligence necklace:
+        "intelligence necklace": {
 # 		Adds 20 intelligence
-# 		Cooldown is 0
+                "intelligence": 20
+        },
 # 	Super necklace:
+        "super necklace": {
 # 		Adds 20 health
+                "health": 20,
 # 		Adds 20 strength
+                "strength": 20,
 # 		Adds 20 intelligence
+                "intelligence": 20
+        }
+}
 
 # Set the rooms in a definition:
+rooms = {
 # 	Beginning:
-# 		Possible places to move to:
-# 		Bob’s room has not been visited
-# 			Bonus area is locked
-# 			Tutorial room has not been visited
+        "beginning": {
+# 		Possible places to move to: bob, bonus area 1, tutorial
+                "possibilities": ["bob", "bonus area 1", "tutorial"],
 # 		Sword has been taken
+                "sword": "",
 # 		Description: You return to the place where you woke up. You look around, remembering that the omnipotent and omniscient chickens have sent you down with a purpose, to destroy Earth. 
+                "description 1": "You return to the place where you woke up. You look around, remembering that the omnipotent and omniscient chickens have sent you down with a purpose, to destroy Earth. ",
+                "visited": ""
+        },
 # 	Tutorial:
-# 		Possible places to move to:
-# 			Beginning has been visited
-# 			Bob has not been visited
-# 			Gladiator ring has not been visited
-# 			Shop has not been visited
+        "tutorial": {
+# 		Possible places to move to: beginning, bob, gladiator ring, shop
+                "possibilities": ["beginning", "bob", "gladiator ring", "shop"],
 # 		Kid has not been killed
+                "kid": "",
 # 		Description 1: You enter a room with a kid in the center. The kid runs up at you and starts attacking you. Prepare for combat. 
+                "description 1": "You enter a room with a kid in the center. The kid runs up at you and starts attacking you. Prepare for combat. ",
 # 		Description 2: You enter a room with a dead kid in the center. You see the spilled blood on the floor. The walls are covered in a beautiful mosaic of Bob. 
+                "description 2": "You enter a room with a dead kid in the center. You see the spilled blood on the floor. The walls are covered in a beautiful mosaic of Bob. ",
+                "visited": ""
+        },
 # 	Bob:
-# 		Possible places to move to:
-# 			Beginning room has been visited
-# 			Tutorial room has been visited
-# 			Boss room has not been visited
+        "bob": {
+# 		Possible places to move to: beginning, tutorial, boss room
+                "possibilities": ["beginning", "tutorial", "boss room"],
 # 		Intelligence necklace has been taken
+                "necklaces": {
+                        "intelligence": "",
 # 		Health necklace has not been taken
+                        "health": "",
 # 		Strength necklace has not been taken
+                        "strength": ""
+                },
 # 		Description 1: A chicken sits there, fingering his sword. He waits for you to approach him, holding some necklaces. 
+                "description 1": "A chicken sits there, fingering his sword. He waits for you to approach him, holding some necklaces. ",
 # 		Description 2: Bob sits there, waiting for you to approach him. It seems he wishes for you to stay away from that room with arcane energy pulsing through. 
+                "description 2": "Bob sits there, waiting for you to approach him. It seems he wishes for you to stay away from that room with arcane energy pulsing through. ",
+                "visited": ""
+        },
 # 	Gladiator Ring:
-# 		Possible places to move to:
-# 		Tutorial room has been visited
-# 		Shop has been visited
-# 			Mage has not been visited
-# 			Bonus area is locked
-# 			Bonus area is locked
+        "gladiator ring": {
+# 		Possible places to move to: tutorial, shop, mage, bonus area 1, bonus area 2
+                "possibilities": ["tutorial", "shop", "mage", "bonus area 1", "bonus area 2"],
 # 		Order of fights
+                "order of fights": {
 # 		Kid has been fought
+                        1: ["kid"],
 # Kid, kid has not been fought
+                        2: ["kid", "kid"],
 # Adult has not been fought
+                        3: ["adult"],
 # Kid, adult has not been fought
+                        4: ["kid", "adult"],
 # Adult, adult has not been fought
+                        5: ["adult", "adult"],
 # Opens bonus area 1 has not been unlocked
+                        "bonus area 1": "",
 # Kid, old has not been fought
+                        6: [],
 # Adult, old has not been fought
+                        7: [],
 # Old, old has not been fought
+                        8: [],
 # Adult, adult, adult has not been fought
+                        9: [],
+                        10: [],
 # 	Opens bonus area 2 has not been unlocked
+                },
 # 		Description 1: A chicken with a boisterous voice welcomes you to his arena, seeking entertainment. He decides to have you battle some of his slaves to give him entertainment. 
 # 		Description 2: The man asks you whether you want to fight another family member or leave. 
+        },
 # 	Shop:
 # 		Possible places to move to:
 # 		Bob’s room has been visited
@@ -214,7 +291,8 @@ enemies = {
 # 			Beginning has been visited
 # 		Description 1: Bob welcomes you, and gives you a weird necklace after taking yours. He then says “Out! My life’s goal is complete: To eat a necklace worn by a chicken! Now I have two! ”
 # 		Description 2: Bob greets you with a cheerful “SHUT THE (nonexistent) DOOR ON YOUR WAY OUT!”
-	
+}
+
 # Set the combat as a function and the parameters as: enemy, info about all enemies, player health, player strength, the list of equipped items, the weapon(s) the enemy has, the enemy’s health, whose turn it is, which weapon the player wants to attack with:
 # If the enemy is attacking:
 # The attacker is the enemy
@@ -226,7 +304,7 @@ enemies = {
 # 	Pick a random number between 1 and 4
 # 		If that corresponds with an available weapon:
 # 			Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
-			
+                        
 # 			Drop each cooldown drop by one
 # 			Set the weapon that you just used to their respective 	cooldown
 # 			Return the damage
