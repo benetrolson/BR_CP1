@@ -12,6 +12,7 @@ player_stats = {
 # 		#Health: 50
         "health": 50
 },
+"current_health": 50,
 # 	#Weapons: List of all the weapons that the player has
 "weapons": {
 # 	#Equipped: 
@@ -229,72 +230,104 @@ rooms = {
 # Opens bonus area 1 has not been unlocked
                         "bonus area 1": "",
 # Kid, old has not been fought
-                        6: [],
+                        6: ["kid", "old"],
 # Adult, old has not been fought
-                        7: [],
+                        7: ["adult", "old"],
 # Old, old has not been fought
-                        8: [],
+                        8: ["old", "old"],
 # Adult, adult, adult has not been fought
-                        9: [],
-                        10: [],
+                        9: ["adult", "adult", "adult"],
+                        10: ["old", "old", "old"],
 # 	Opens bonus area 2 has not been unlocked
+                        "bonus area 2": ""
                 },
 # 		Description 1: A chicken with a boisterous voice welcomes you to his arena, seeking entertainment. He decides to have you battle some of his slaves to give him entertainment. 
+                "description 1": "A chicken with a boisterous voice welcomes you to his arena, seeking entertainment. He decides to have you battle some of his slaves to give him entertainment. ",
 # 		Description 2: The man asks you whether you want to fight another family member or leave. 
+                "description 2": "The man asks you whether you want to fight another family member or leave. ",
+                "visited": ""
         },
 # 	Shop:
-# 		Possible places to move to:
-# 		Bob’s room has been visited
-# 		Tutorial room has been visited
-# 		Gladiator ring has been visited
-# 			Mage has not been visited
+        "shop": {
+# 		Possible places to move to: bob, tutorial, gladiator ring, mage
+                "possibilities": ["bob", "tutorial", "gladiator ring", "mage"],
 # 		Description: You find a strange chicken with a bunch of weapons. The chicken seems to wish for something. She awaits your approach. 
+                "description 1": "You find a strange chicken with a bunch of weapons. The chicken seems to wish for something. She awaits your approach. ",
+                "visited": ""
+        },
 # 	Mage:
-# 		Possible places to move to:
-# 			Gladiator ring has been visited
-# 			Shop has been visited
-# 			Gatekeeper has not been visited
+        "mage": {
+# 		Possible places to move to: gladiator ring, shop, gatekeeper
+                "possibilities": ["gladiator ring", "shop", "gatekeeper"],
 # 		Boost is not given
+                "boost": "",
 # 		Description 1: A floating chicken stands in the center of the room, walking around. They turn to face you while they stay still, watching you. 
+                "description 1": "A floating chicken stands in the center of the room, walking around. They turn to face you while they stay still, watching you. ",
 # 		Description 2: The mage waits while floating at the top of the room, running along the ground, at the center of the edge of the center of the room. 
+                "description 2": "The mage waits while floating at the top of the room, running along the ground, at the center of the edge of the center of the room. "
+        },
 # 	Gatekeeper:
-# 		Possible places to move to:
-# 			Shop has been visited
-# 			Mage has been visited
-# 			Resting place has not been visited
-# 		Gatekeeper has not been killed
+        "gatekeeper": {
+# 		Possible places to move to: shop, mage, resting place:
+                "possibilities": ["shop", "mage", "resting place"],
 # 		Description 1: A chicken, seeming to be using arcane energy from the room ahead, floats up and flies towards you. 
+                "description 1": "A chicken, seeming to be using arcane energy from the room ahead, floats up and flies towards you. ",
 # 		Description 2: The gatekeeper lies on the ground, dead. 
+                "description 2": "The gatekeeper lies on the ground, dead. ",
+                "visited": ""
+        },
 # Resting place:
-# 		Possible places to move to:
-# 			Gatekeeper has been visited
-# 			Boss room has not been visited
+        "resting place": {
+# 		Possible places to move to: gatekeeper, boss room
+                "possibilities": ["gatekeeper", "boss room"],
 # 		Health potion has not been picked up
+                "health potion": "",
 # Description 1: You see a health potion on the ground, and only one way to go; forward. 
-# 		Description 2: You see the way that you should go; forward 
+                "description 1": "You see a health potion on the ground, and only one way to go; forward. ",
+# 		Description 2: You see the way that you should go: forward. 
+                "description 2": "You see the way that you should go: forward. ",
+                "visited": ""
+        },
 # Boss room:
-# 		Possible places to move to:
-# 			Bob has been visited
-# 			Gatekeeper has been visited
+        "boss room": {
+# 		Possible places to move to: bob, gatekeeper
+                "possibilities": ["bob", "gatekeeper"],
 # 		Description 1: A door slams behind you, locking you into the room. The Chickens look at you, seeming prepared. One speaks, saying, “We may not be omniscient, but we are omnipotent. If you survive the final trial, Us, while we don’t really try, you may ascend up and join us in our pursuit of omniscience.”
+                "description 1": "A door slams behind you, locking you into the room. The Chickens look at you, seeming prepared. One speaks, saying, \“We may not be omniscient, but we are omnipotent. If you survive the final trial, Us, while we don’t really try, you may ascend up and join us in our pursuit of omniscience.\”",
+                "visited": ""
+        },
 # Bonus area 1:
-# 		Possible places to move to:
-# 			Gladiator ring has been visited
+        "bonus area 1": {
+# 		Possible places to move to: gladiator ring
+                "possibilities": ["gladiator ring"],
 # 		Intelligence necklace has been taken
+                "intelligence necklace": "",
 # 		Health necklace has been taken
+                "health necklace": "",
 # 		Strength necklace has not been taken
+                "strength necklace": "",
 # Description 1: You see the great and glorious Bob again, waiting with his necklaces. 
-# 		Description 2: Bob, bored, asks why you are here and to shut the nonexistent door on the way out.  
+                "description 1": "You see the great and glorious Bob again, waiting with his necklaces. ",
+# 		Description 2: Bob, bored, asks why you are here and to shut the nonexistent door on the way out. 
+                "description 2": "Bob, bored, asks why you are here and to shut the nonexistent door on the way out. ",
+                "visited": ""
+        },
 # Bonus area 2:
-# 		Possible places to move to:
-# 			Gladiator ring has been visited
-# 			Beginning has been visited
-# 		Description 1: Bob welcomes you, and gives you a weird necklace after taking yours. He then says “Out! My life’s goal is complete: To eat a necklace worn by a chicken! Now I have two! ”
+        "bonus area 2": {
+# 		Possible places to move to: gladiator ring, beginning
+                "possibilities": ["gladiator ring", "beginning"],
+# 		Description 1: Bob welcomes you, and gives you a weird necklace after taking yours. He then says “Out! My life’s goal is complete: To eat a necklace worn by a chicken! Now I have two to eat! ”
+                "description 1": "Bob welcomes you, and gives you a weird necklace after taking yours. He then says \“Out! My life’s goal is complete: To eat a necklace worn by a chicken! Now I have two to eat! \”",
 # 		Description 2: Bob greets you with a cheerful “SHUT THE (nonexistent) DOOR ON YOUR WAY OUT!”
+                "description 2": "Bob greets you with a cheerful \“SHUT THE (nonexistent) DOOR ON YOUR WAY OUT!\”",
+                "visited": ""
+        },
 }
 
 # Set the combat as a function and the parameters as: enemy, info about all enemies, player health, player strength, the list of equipped items, the weapon(s) the enemy has, the enemy’s health, whose turn it is, which weapon the player wants to attack with:
+def combat(enemy, enemies, player_stats, turn):
 # If the enemy is attacking:
+        if turn == 0:
 # The attacker is the enemy
 # See how many available weapons the enemy has and store that in a variable
 # If they have none:
