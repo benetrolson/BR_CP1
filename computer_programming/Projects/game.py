@@ -33,14 +33,14 @@ player_stats = {
 # 	#Necklace: whichever necklace they have equipped
 "necklace": "",
 # 	#Location: Beginning
-"location": "Beginning"
+"location": "beginning"
 }
 # #Set the enemy stats in a definition:
 enemies = {
 # 	Kid’s stats:
 "kid": {
 # 		Weapon can either be sword, axe, spear, or club
-        "weapon1": random.choice["sword", "spear", "axe", "club"],
+        "weapon1": ["random"],
 # 		Health is 20
         "health": 20,
 # 		Strength is 20
@@ -49,9 +49,7 @@ enemies = {
 # 	Adult’s stats:
 "adult": {
 # 		Weapon can either be sword, axe, spear, or club
-        "weapon1": random.choice["sword", "spear", "axe", "club"],
-#       Weapon can either be sword, axe, spear, or club
-        "weapon2": random.choice["sword", "spear", "axe", "club"],
+        "weapon1":["random", "random"],
 # 		Health is 40
         "health": 40,
 # 		Strength is 40
@@ -60,11 +58,7 @@ enemies = {
 # 	Old’s stats:
 "old": {
 # 		Weapon can either be sword, axe, spear, or club
-        "weapon1": random.choice["sword", "spear", "axe", "club"],
-#       Weapon can either be sword, axe, spear, or club
-        "weapon2": random.choice["sword", "spear", "axe", "club"],
-# 		Weapon can either be sword, axe, spear, or club
-        "weapon3": random.choice["sword", "spear", "axe", "club"],
+        "weapon1": ["random", "random", "random"],
 # 		Health is 20
         "health": 20,
 # 		Strength is 50
@@ -73,11 +67,7 @@ enemies = {
 # 	Gatekeeper’s stats:
 "gatekeeper": {
 # 		Weapon is axe
-        "weapon":"axe",
-# #Weapon is club
-        "weapon": "club",
-# #Weapon is beak
-        "weapon": "beak",
+        "weapon":["axe", "club", "beak"],
 # 		Health is 50
         "health": 50,
 # 		Strength is 50
@@ -86,13 +76,7 @@ enemies = {
 # 	Boss’s stats:
         "boss":  {
 # 		Weapon is axe
-                "weapon1": "axe",
-# #Weapon is club
-                "weapon2": "club",
-# #Weapon is sword
-                "weapon3": "sword",
-# #Weapon is spear
-                "weapon4": "sword",
+                "weapon": ["axe", "club", "sword", "spear"],
 # 		Health is 60
                 "health": 60,
 # 		Strength is 60
@@ -270,6 +254,7 @@ rooms = {
         "gatekeeper": {
 # 		Possible places to move to: shop, mage, resting place:
                 "possibilities": ["shop", "mage", "resting place"],
+                "gatekeeper": "",
 # 		Description 1: A chicken, seeming to be using arcane energy from the room ahead, floats up and flies towards you. 
                 "description 1": "A chicken, seeming to be using arcane energy from the room ahead, floats up and flies towards you. ",
 # 		Description 2: The gatekeeper lies on the ground, dead. 
@@ -328,14 +313,17 @@ rooms = {
 def combat(enemy, enemies, player_stats, turn):
 # If the enemy is attacking:
         if turn == 0:
-# The attacker is the enemy
 # See how many available weapons the enemy has and store that in a variable
-# If they have none:
-# 	They do nothing
-# Otherwise:
+                weapons = len(enemy["weapon"])
+# If they have some:
+                for i in range(weapons):
+                        if 
 # 	Infinite loop:
+                        while True:
 # 	Pick a random number between 1 and 4
+                                weapon_choice = random.randint(1, weapons)
 # 		If that corresponds with an available weapon:
+                                if enemy["weapon"][weapon_choice] == 0:
 # 			Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
                         
 # 			Drop each cooldown drop by one
@@ -396,7 +384,18 @@ def combat(enemy, enemies, player_stats, turn):
 # 		Say try again
 # 	If there is an enemy in the room:
 # 		Infinite loop:
+#asign the weapon and stuff to the enemy
+for i in ["kid", "adult", "old", "order_of_fights", "gatekeeper"]:
+        if i in rooms[(player_stats["location"])]:
+                enemy = i
+if enemy == "kid":
+       "weapon1": ["random"],
+# 		Health is 20
+        "health": 20,
+# 		Strength is 20
+        "strength": 20
 # Call the combat with the enemy first
+random.choice["sword", "spear", "axe", "club"]
 # Display the dmg and what the enemy did
 # Combat to give the options to the player
 # Infinite loop:
@@ -424,6 +423,7 @@ def combat(enemy, enemies, player_stats, turn):
 # 						Put it into the player’s inventory
 # 						Break the infinite loop
 # 	Otherwise if they are in the boss room:
+        elif player_stats["location"] == "boss room"
 # 		(The combat will run because the Chickens are an enemy)
 # 		Display the information that they learn at the end of the game(This part comes after combat)
 # 	Check if the player wants to play again or leave the game
