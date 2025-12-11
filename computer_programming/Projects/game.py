@@ -388,28 +388,65 @@ def combat(enemy, enemies, player_stats, turn):
 for i in ["kid", "adult", "old", "order_of_fights", "gatekeeper"]:
         if i in rooms[(player_stats["location"])]:
                 enemy = i
+if enemy == "order_of_fights":
+        for i in range(10):
+                if rooms[(player_stats["location"])]["order_of_fights"][i][1]:
+                        enemy = rooms[(player_stats["location"])]["order_of_fights"][i][1]
+                        break
+                elif rooms[(player_stats["location"])]["order_of_fights"][i][2]:
+                        enemy = rooms[(player_stats["location"])]["order_of_fights"][i][2]
+                        break
+                elif rooms[(player_stats["location"])]["order_of_fights"][i][3]:
+                        enemy = rooms[(player_stats["location"])]["order_of_fights"][i][3]
+                        break
+        else:
+                check = input("Do you want to fight one of my men? If so write '1'. ")
+                if check == "1":
+                        enemy = "old"
 if enemy == "kid":
         enemy = {
-               "weapon1": random.choice["sword", "spear", "axe", "club"],
+                random.choice["sword", "spear", "axe", "club"]: 0,
 # 		Health is 20
                 "health": 20,
 # 		Strength is 20
                 "strength": 20
-                }
+        }
 elif enemy == "adult":
         enemy = {
-                "weapon1": random.choice["sword", "spear", "axe", "club"],
-                "weapon2": random.choice["sword", "spear", "axe", "club"],
-                "
-# Call the combat with the enemy first
-random.choice["sword", "spear", "axe", "club"]
-# Display the dmg and what the enemy did
-# Combat to give the options to the player
-# Infinite loop:
-# 	Give the options to the player
-# 	If the player responds with a valid response:
-# 		Run combat with that new information
-# 		Break the loop
+                random.choice["sword", "spear", "axe", "club"]: 0,
+                random.choice["sword", "spear", "axe", "club"]: 0,
+                "health": 40,
+                "strength": 40
+        }
+elif enemy == "old":
+        enemy = {
+                random.choice["sword", "spear", "axe", "club"]: 0,
+                random.choice["sword", "spear", "axe", "club"]: 0,
+                random.choice["sword", "spear", "axe", "club"]: 0,
+                "health": 20,
+                "srength": 50
+        }
+elif enemy == "gatekeeper":
+        enemy = {
+                "axe": 0,
+                "club": 0,
+                "beak": 0,
+                "health": 50,
+                "strength": 50
+        }
+while True:
+        
+        # Call the combat with the enemy first
+        dmg, enemy, player_stats = combat(enemy, enemies, player_stats, turn)
+        # Display the dmg and what the enemy did
+        print(f"You took {dmg} damage. Your health is now {player_stats}")
+        # Combat to give the options to the player
+        # Infinite loop:
+        # 	Give the options to the player
+        # 	If the player responds with a valid response:
+        # 		Run combat with that new information
+        # 		Break the loop
+                        break
 # 	Otherwise if there is a person in the room:
 # 		Talk with them from a dictionary with dialogue
 # 		If it is the mage room and the player has not yet gotten the stat boost:
