@@ -389,11 +389,18 @@ for i in ["kid", "adult", "old", "order_of_fights", "gatekeeper"]:
         if i in rooms[(player_stats["location"])]:
                 enemy = i
 if enemy == "kid":
-       "weapon1": ["random"],
+        enemy = {
+               "weapon1": random.choice["sword", "spear", "axe", "club"],
 # 		Health is 20
-        "health": 20,
+                "health": 20,
 # 		Strength is 20
-        "strength": 20
+                "strength": 20
+                }
+elif enemy == "adult":
+        enemy = {
+                "weapon1": random.choice["sword", "spear", "axe", "club"],
+                "weapon2": random.choice["sword", "spear", "axe", "club"],
+                "
 # Call the combat with the enemy first
 random.choice["sword", "spear", "axe", "club"]
 # Display the dmg and what the enemy did
