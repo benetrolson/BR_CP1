@@ -173,7 +173,6 @@ weapons = {
 
 # Set the rooms in a definition:
 rooms = {
-
         # Beginning:
         "beginning": {
                 # Possible places to move to: bob, bonus area 1, tutorial
@@ -184,7 +183,6 @@ rooms = {
                 "description 1": "You return to the place where you woke up. You look around, remembering that the omnipotent and omniscient chickens have sent you down with a purpose, to destroy Earth. ",
                 "visited": ""
         },
-
         # Tutorial:
         "tutorial": {
                 # Possible places to move to: beginning, bob, gladiator ring, shop
@@ -197,7 +195,6 @@ rooms = {
                 "description 2": "You enter a room with a dead kid in the center. You see the spilled blood on the floor. The walls are covered in a beautiful mosaic of Bob. ",
                 "visited": ""
         },
-
         # Bob:
         "bob": {
                 # Possible places to move to
@@ -216,11 +213,9 @@ rooms = {
                 "description 2": "Bob sits there, waiting for you to approach him. It seems he wishes for you to stay away from that room with arcane energy pulsing through. ",
                 "visited": ""
         },
-
         # Gladiator Ring:
         "gladiator ring": {
                 "possibilities": ["tutorial", "shop", "mage", "bonus area 1", "bonus area 2"],
-
                 "order of fights": {
                         1: ["kid"],
                         2: ["kid", "kid"],
@@ -235,19 +230,16 @@ rooms = {
                         10: ["old", "old", "old"],
                         "bonus area 2": ""
                 },
-
                 "description 1": "A chicken with a boisterous voice welcomes you to his arena, seeking entertainment. He decides to have you battle some of his slaves to give him entertainment. ",
                 "description 2": "The man asks you whether you want to fight another family member or leave. ",
                 "visited": ""
         },
-
         # Shop:
         "shop": {
                 "possibilities": ["bob", "tutorial", "gladiator ring", "mage"],
                 "description 1": "You find a strange chicken with a bunch of weapons. The chicken seems to wish for something. She awaits your approach. ",
                 "visited": ""
         },
-
         # Mage:
         "mage": {
                 "possibilities": ["gladiator ring", "shop", "gatekeeper"],
@@ -255,7 +247,6 @@ rooms = {
                 "description 1": "A floating chicken stands in the center of the room, walking around. They turn to face you while they stay still, watching you. ",
                 "description 2": "The mage waits while floating at the top of the room, running along the ground, at the center of the edge of the center of the room. "
         },
-
         # Gatekeeper:
         "gatekeeper": {
                 "possibilities": ["shop", "mage", "resting place"],
@@ -264,7 +255,6 @@ rooms = {
                 "description 2": "The gatekeeper lies on the ground, dead. ",
                 "visited": ""
         },
-
         # Resting place:
         "resting place": {
                 "possibilities": ["gatekeeper", "boss room"],
@@ -273,14 +263,12 @@ rooms = {
                 "description 2": "You see the way that you should go: forward. ",
                 "visited": ""
         },
-
         # Boss room:
         "boss room": {
                 "possibilities": ["bob", "gatekeeper"],
                 "description 1": "A door slams behind you, locking you into the room. The Chickens look at you, seeming prepared. One speaks, saying, “We may not be omniscient, but we are omnipotent. If you survive the final trial, Us, while we don’t really try, you may ascend up and join us in our pursuit of omniscience.”",
                 "visited": ""
         },
-
         # Bonus area 1:
         "bonus area 1": {
                 "possibilities": ["gladiator ring"],
@@ -291,7 +279,6 @@ rooms = {
                 "description 2": "Bob, bored, asks why you are here and to shut the nonexistent door on the way out. ",
                 "visited": ""
         },
-
         # Bonus area 2:
         "bonus area 2": {
                 "possibilities": ["gladiator ring", "beginning"],
@@ -312,7 +299,7 @@ dialogue = {
 }
 
 # Set the combat as a function and the parameters as: enemy, info about all enemies, player health, player strength, the list of equipped items, the weapon(s) the enemy has, the enemy’s health, whose turn it is, which weapon the player wants to attack with:
-def combat(enemy, enemies, player_stats, turn, weapon):
+def combat(enemy, enemies = enemies, player_stats = player_stats, turn, weapon):
     possibilities = []
     # If the enemy is attacking:
     if turn == 0:
@@ -391,115 +378,160 @@ def combat(enemy, enemies, player_stats, turn, weapon):
         # Return the list
         return usable_options, enemy, player_stats
 
+def move(options, rooms = rooms, player_stats = player_stats):
+        if options == "":
+                return(rooms[player_stats["location"]]["possibilities"])
+        else:
+                player_stats["location"] = options
+                return(player_stats)
+
 while True:
-    for i in ["kid", "adult", "old", "order_of_fights", "gatekeeper"]:
-            if i in rooms[(player_stats["location"])]:
-                    enemy = i
-    if enemy == "order_of_fights":
-            for i in range(10):
-                    if rooms[(player_stats["location"])]["order_of_fights"][i][1]:
-                            enemy = rooms[(player_stats["location"])]["order_of_fights"][i][1]
-                            break
-                    elif rooms[(player_stats["location"])]["order_of_fights"][i][2]:
-                            enemy = rooms[(player_stats["location"])]["order_of_fights"][i][2]
-                            break
-                    elif rooms[(player_stats["location"])]["order_of_fights"][i][3]:
-                            enemy = rooms[(player_stats["location"])]["order_of_fights"][i][3]
-                            break
-    else:
-            check = input("Do you want to fight one of my men? If so write '1'. ")
-            if check == "1":
-                    enemy = "old"
-    
-    if enemy == "kid":
-            enemy = {
-                    random.choice["sword", "spear", "axe", "club"]: 0,
-                    "health": 20,
-                    "strength": 20
-            }
-    elif enemy == "adult":
-            enemy = {
-                    random.choice["sword", "spear", "axe", "club"]: 0,
-                    random.choice["sword", "spear", "axe", "club"]: 0,
-                    "health": 40,
-                    "strength": 40
-            }
-    elif enemy == "old":
-            enemy = {
-                    random.choice["sword", "spear", "axe", "club"]: 0,
-                    random.choice["sword", "spear", "axe", "club"]: 0,
-                    random.choice["sword", "spear", "axe", "club"]: 0,
-                    "health": 20,
-                    "srength": 50
-            }
-    elif enemy == "gatekeeper":
-            enemy = {
-                    "axe": 0,
-                    "club": 0,
-                    "beak": 0,
-                    "health": 50,
-                    "strength": 50
-            }
-    while True:
-            # Call the combat with the enemy first
-            dmg, enemy, player_stats = combat(enemy, enemies, player_stats, turn, "")
-            # Display the dmg and what the enemy did
-            print(f"You took {dmg} damage. Your health is now {player_stats}")
-            # Combat to give the options to the player
-            # Infinite loop:
-            # Give the options to the player
-            # If the player responds with a valid response:
-            # Run combat with that new information
-            # Break the loop
-    
-            break
-    
-        # Otherwise if there is a person in the room:
-        elif player_stats["location"] in ["bob", "mage", "bonus area 1", "bonus area 2", "shop", "gladiator ring"]
-                # Talk with them from a dictionary with dialogue
-                for i in dialogue[player_stats["location"]]:
-                        print(dialogue[player_stats["location"][i-1]])
-                # If it is the mage room and the player has not yet gotten the stat boost:
-                if player_stats["location"] == "mage" and rooms["mage"]["boost"] == "":
+        if check != "yes":
+                break
+        #give the info from the beginning
+        while True:
+            for i in enemies:
+                    if i in rooms[(player_stats["location"])]:
+                            enemy = i
+            if enemy == "order_of_fights":
+                    for i in range(10):
+                            if rooms[(player_stats["location"])]["order_of_fights"][i][1]:
+                                    enemy = rooms[(player_stats["location"])]["order_of_fights"][i][1]
+                                    break
+                            elif rooms[(player_stats["location"])]["order_of_fights"][i][2]:
+                                    enemy = rooms[(player_stats["location"])]["order_of_fights"][i][2]
+                                    break
+                            elif rooms[(player_stats["location"])]["order_of_fights"][i][3]:
+                                    enemy = rooms[(player_stats["location"])]["order_of_fights"][i][3]
+                                    break
+            else:
+                    check = input("Do you want to fight one of my men? If so write '1'. ")
+                    if check == "1":
+                            enemy = "old"
+            
+            if enemy == "kid":
+                    enemy = {
+                            random.choice["sword", "spear", "axe", "club"]: 0,
+                            "health": 20,
+                            "strength": 20
+                    }
+            elif enemy == "adult":
+                    enemy = {
+                            random.choice["sword", "spear", "axe", "club"]: 0,
+                            random.choice["sword", "spear", "axe", "club"]: 0,
+                            "health": 40,
+                            "strength": 40
+                    }
+            elif enemy == "old":
+                    enemy = {
+                            random.choice["sword", "spear", "axe", "club"]: 0,
+                            random.choice["sword", "spear", "axe", "club"]: 0,
+                            random.choice["sword", "spear", "axe", "club"]: 0,
+                            "health": 20,
+                            "srength": 50
+                    }
+            elif enemy == "gatekeeper":
+                    enemy = {
+                            "axe": 0,
+                            "club": 0,
+                            "beak": 0,
+                            "health": 50,
+                            "strength": 50
+                    }
+            elif enemy == "boss":
+                    enemy = {
+                            "axe": 0,
+                            "club": 0,
+                            "sword": 0,
+                            "spear": 0,
+                            "health": 60,
+                            "strength": 60
+                    }
+                while player_stats["current_health"] > 0 and enemy["health"] > 0:
+                        turn = 0
+                        # Call the combat with the enemy first
+                        dmg, enemy, player_stats = combat(enemy, enemies, player_stats, turn, "")
+                        # Display the dmg and what the enemy did
+                        print(f"You took {dmg} damage. Your health is now {player_stats["current_health"]}")
+                        turn = 1
+                        # Combat to give the options to the player
+                        options = combat(enemy, enemies, player_stats, turn, "")
+                        print("Your options are:")
                         # Infinite loop:
                         while True:
-                                # Check which stat they want to boost
-                                check = input("Which stat do you want to boost? Intelligence, strength, or health").lower()
-                                # If it is a real stat:
-                                if check in ["intelligence", "strength", "health"]:
-                                        # Boost that stat by 10
-                                        player_stats["stats"][check] += 10
-                                        # Break the loop
-                                        break
-                # Otherwise if it has Bob and they have not gotten a necklace yet:
-                elif player_stats["location"] == "bob" and len(necklaces) == 3:
+                        # Give the options to the player
+                                for i in options:
+                                        print(options[i-1])
+                                # If the player responds with a valid response:
+                                check = input("Which one do you want to choose? ")
+                                # Run combat with that new information
+                                dmg, enemy, player_stats = combat(enemy, enemies, player_stats, turn, check)
+                                print(f"The enemy took {dmg} damage. Their health is now {enemy["health"]}")
+                if player_stats["current_health"] <= 0:
+                        check = input("You lost. Do you want to play again? If so, write 'yes'. ").lower()
+                        break
+                else:
+                        print("You won! ")
+                # Otherwise if there is a person in the room:
+                if player_stats["location"] in ["bob", "mage", "bonus area 1", "bonus area 2", "shop", "gladiator ring"]
+                        # Talk with them from a dictionary with dialogue
+                        for i in dialogue[player_stats["location"]]:
+                                print(dialogue[player_stats["location"][i-1]])
+                        # If it is the mage room and the player has not yet gotten the stat boost:
+                        if player_stats["location"] == "mage" and rooms["mage"]["boost"] == "":
+                                # Infinite loop:
+                                while True:
+                                        # Check which stat they want to boost
+                                        check = input("Which stat do you want to boost? Intelligence, strength, or health").lower()
+                                        # If it is a real stat:
+                                        if check in ["intelligence", "strength", "health"]:
+                                                # Boost that stat by 10
+                                                player_stats["stats"][check] += 10
+                                                # Break the loop
+                                                break
+                        # Otherwise if it has Bob and they have not gotten a necklace yet:
+                        elif player_stats["location"] == "bob" and len(necklaces) == 3:
+                                # Infinite loop:
+                                while True:
+                                        # Check which necklace they want
+                                        print(f"Which necklace do you want? A {necklaces[0]} necklace, a {necklaces[1]} necklace, or a {necklaces{2} necklace? ")
+                                        check = input("")
+                                        # If it is a real option:
+                                        if check in necklaces:
+                                                # Put it into the inventory
+                                                player_stats["necklace"] = check
+                                                necklace.pop(check)
+                                                # Break loop
+                                                break
+                        # Otherwise if they are in the boss room:
+                        elif player_stats["location"] == "boss room":
+                                # Display the information learned at the end of the game
+                                print("You won the game! Good job. Welcome to the life of an omnipotent being. ")
+                                # Check if the player wants to play again or leave
+                                check = input("Do you want to play again? If so, write 'yes'. ")
+                                break
                         # Infinite loop:
                         while True:
-                                # Check which necklace they want
-                                print(f"Which necklace do you want? A {necklaces[0]} necklace, a {necklaces[1]} necklace, or a {necklaces{2} necklace? ")
-                                check = input("")
-                                # If it is a real option:
-                                if check in necklaces:
-                                        # Put it into the inventory
-                                        player_stats["necklace"] = check
-                                        necklace.pop(check)
-                                        # Break loop
-                                        break
-                # Otherwise if they are in the boss room:
-                elif player_stats["location"] == "boss room":
-                # The combat will run
-                        
-                # Display the information learned at the end of the game
-                # Check if the player wants to play again or leave
-                # If leave: break
-                # Otherwise restart
-                # Infinite loop:
-        # Activate movement to get options
-        # Infinite loop:
-        # Display options
-        # Choose from options
-        # Run movement
-        # If valid: break
-        # If moved: break
-        # Show options
-        # Check which one the player wants to use
+                                # Activate movement to get options
+                                options = move("")
+                                # Infinite loop:
+                                while True:
+                                        # Display options
+                                        print("Your options are: ")
+                                        for i in options:
+                                                print(options[i])
+                                        # Choose from options
+                                        check = input("Which place do you want to go to? ")
+                                        # Run movement
+                                        if check in options:
+                                                player_stats = move(check)
+                                                if player_stats["location"] in ["shop", "beginning", "boss room"]:
+                                                        print(rooms[player_stats["location"]])
+                                                else:
+                                                        if rooms[player_stats["location"]][visited] == False:
+                                                                print(rooms[player_stats["location"]]["description 1"])
+                                                        else:
+                                                                print(rooms[player_stats["location"]]["description 2"])
+                                                rooms[player_stats["location"]][visited] = True
+                                                break
+                                        print("Try again. Your input was invalid. ")
