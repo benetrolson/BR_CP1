@@ -1,4 +1,4 @@
-# Final Project
+# BHR 2nd Final Project
 
 # Import the random functions
 import random
@@ -317,6 +317,8 @@ def combat(enemy, turn, weapon, enemies=enemies, player_stats=player_stats):
                         for w in enemy["weapon"]:
                                 if w["cooldown"] > 0:
                                         w["cooldown"] -= 1
+                        if weapon_choice:
+                                enemy["weapon"][weapon_choice]["cooldown"] = weapons[weapon_name]["cooldown"]
                         return 1, enemy, player_stats  # default weak attack
         # Otherwise if the player is attacking:
         elif turn == 1:
@@ -430,7 +432,7 @@ while True:
                         if i in rooms[(player_stats["location"])]:
                                 enemy = i
                 rooms[(player_stats["location"])][enemy] = False
-                if enemy == "order_of_fights":
+                if player_stats["location"] == "gladiator ring":
                         for i in range(10):
                                 if rooms[(player_stats["location"])]["order_of_fights"][i][1]:
                                         enemy = rooms[(player_stats["location"])]["order_of_fights"][i][1]
@@ -442,8 +444,8 @@ while True:
                                         enemy = rooms[(player_stats["location"])]["order_of_fights"][i][3]
                                         break
                 else:
-                        check = input("Do you want to fight one of my men? If so write '1'. ")
-                        if check == "1":
+                        check = input("Do you want to fight one of my men? If so write 'yes'. ")
+                        if check == "yes":
                                 enemy = "old"    
                 if enemy == "kid":
                         enemy = {
@@ -498,8 +500,8 @@ while True:
                         # Call the combat with the enemy first
                         dmg, enemy, player_stats = combat(enemy, turn, "")
                         # Display the dmg and what the enemy did
-                        print(f"You took {dmg} damage. Your health is now {player_stats['current_health']}")
                         player_stats["current_health"] -= dmg
+                        print(f"You took {dmg} damage. Your health is now {player_stats['current_health']}")
                         turn = 1
                         # Combat to give the options to the player
                         options, enemy, player_stats = combat(enemy, turn, "")
@@ -542,11 +544,11 @@ while True:
                                 # Infinite loop:
                                 while True:
                                         # Check which stat they want to boost
-                                        check = input("Which stat do you want to boost? Intelligence, strength, or health").lower()
+                                        ask = input("Which stat do you want to boost? Intelligence, strength, or health").lower()
                                         # If it is a real stat:
-                                        if check in ["intelligence", "strength", "health"]:
+                                        if ask in ["intelligence", "strength", "health"]:
                                                 # Boost that stat by 10
-                                                player_stats["stats"][check] += 10
+                                                player_stats["stats"][ask] += 10
                                                 # Break the loop
                                                 break
                         # Otherwise if it has Bob and they have not gotten a necklace yet:
@@ -555,29 +557,29 @@ while True:
                                 while True:
                                         # Check which necklace they want
                                         print(f"Which necklace do you want? A {necklaces[0]} necklace, a {necklaces[1]} necklace, or a {necklaces[2]} necklace? ")
-                                        check = input("")
+                                        neck = input("")
                                         # If it is a real option:
-                                        if check in necklaces:
+                                        if neck in necklaces:
                                                 # Put it into the inventory
-                                                player_stats["necklace"] = check
-                                                player_stats["stats"][check] += 10
-                                                necklaces.remove(check)
+                                                player_stats["necklace"] = neck
+                                                player_stats["stats"][neck] += 10
+                                                necklaces.remove(neck)
                                                 # Break loop
                                                 break
                         elif player_stats["location"] == "bonus area 1" and len(necklaces) == 2:
                                 while True:
                                         print(f"Which necklace do you trade for? A {necklaces[0]} necklace, or a {necklaces[1]} necklace? ")
-                                        check = input("")
-                                        if check in necklaces:
+                                        neck = input("")
+                                        if neck in necklaces:
                                                 player_stats["stats"][player_stats["necklace"]] -= 10
-                                                player_stats["necklace"] = check
-                                                player_stats["stats"][check] += 10
-                                                necklaces.remove(check)
+                                                player_stats["necklace"] = neck
+                                                player_stats["stats"][neck] += 10
+                                                necklaces.remove(neck)
                                                 break
                         elif player_stats["location"] == "bonus area 2" and len(necklaces) == 1:
                                 while True:
-                                        check = input("In exchange for the supe necklace, will you trade your current necklace? If so, write 'yes'. ").lower()
-                                        if check == "yes":
+                                        neck = input("In exchange for the supe necklace, will you trade your current necklace? If so, write 'yes'. ").lower()
+                                        if neck == "yes":
                                                 player_stats["stats"][player_stats["necklace"]] -= 10
                                                 for i in player_stats["stats"]:
                                                         player_stats["stats"][i] += 10
