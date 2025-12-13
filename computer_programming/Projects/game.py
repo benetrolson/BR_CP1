@@ -313,61 +313,83 @@ dialogue = {
 
 # Set the combat as a function and the parameters as: enemy, info about all enemies, player health, player strength, the list of equipped items, the weapon(s) the enemy has, the enemy’s health, whose turn it is, which weapon the player wants to attack with:
 def combat(enemy, enemies, player_stats, turn, weapon):
-        possibilities = []
-        # If the enemy is attacking:
-        if turn == 0:
-                # See how many available weapons the enemy has and store that in a variable
-                weapons = len(enemy["weapon"])
-                # If they have some:
-                for i in range(weapons):
-                        if 
-                            # Infinite loop:
-                            while True:
-                                    # Pick a random number between 1 and 4
-                                    weapon_choice = random.randint(1, weapons)
-                                    # If that corresponds with an available weapon:
-                                    if enemy["weapon"][weapon_choice] == 0:
-                                            # Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
-                                            # Drop each cooldown drop by one
-                                            # Set the weapon that you just used to their respective cooldown
-                                            # Return the damage
-        # Otherwise if the player is attacking:
-        elif turn == 1:
+    possibilities = []
+    # If the enemy is attacking:
+    if turn == 0:
+        # See how many available weapons the enemy has and store that in a variable
+        usable_weapons = [i for i, w in enumerate(enemy["weapon"]) if w["cooldown"] == 0]
+        # If they have some:
+        if usable_weapons:
+            # Infinite loop:
+            # Pick a random number between 0 and len(usable_weapons)-1
+            weapon_choice = random.choice(usable_weapons)
+            # If that corresponds with an available weapon:
+            # Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
+            damage = ((enemy["strength"] / 100) + 1) * enemy["weapon"][weapon_choice]["damage"]
+            # Drop each cooldown drop by one
+            for w in enemy["weapon"]:
+                if w["cooldown"] > 0:
+                    w["cooldown"] -= 1
+            # Set the weapon that you just used to their respective cooldown
+            enemy["weapon"][weapon_choice]["cooldown"] = enemy["weapon"][weapon_choice]["max_cooldown"]
+            # Return the damage
+            return damage, enemy, player_stats
+        else:
+            # No weapons are usable: do a default attack (e.g., minimal damage)
+            for w in enemy["weapon"]:
+                if w["cooldown"] > 0:
+                    w["cooldown"] -= 1
+            return 1, enemy, player_stats  # default weak attack
+    # Otherwise if the player is attacking:
+    elif turn == 1:
         # If the player didn’t input a weapon yet
-                if weapon == "":
-        # If the player has no possible weapons
-                        for i in player_stats["weapons"]["equipped"]:
-                                if player_stats["weapons"]["equipped"][i] == 0:
-                                        possibilities.append(player_stats["weapons"]["equipped"][i])
-                        # Return by give them one option; to attack with the beak
-                        if possibilities == []:
-                                return(["beak"])
-                        else:
-                                return([possibilities])
-                elif weapon in player_stats["weapons"]["equipped"] and player_stats["weapons"]["equipped"][weapon] == 0:
-                        
-                        
-
+        if weapon == "":
+            # If the player has no possible weapons
+            for w in player_stats["weapons"]["equipped"]:
+                if player_stats["weapons"]["equipped"][w]["cooldown"] == 0:
+                    possibilities.append(w)
+            # Return by give them one option; to attack with the beak
+            if possibilities == []:
+                return ["beak"], enemy, player_stats
+            else:
+                return possibilities, enemy, player_stats
+        # If the player chose a weapon they have and it’s ready
+        elif weapon in player_stats["weapons"]["equipped"] and player_stats["weapons"]["equipped"][weapon]["cooldown"] == 0:
+            # Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
+            damage = ((player_stats["stats"]["strength"] / 100) + 1) * player_stats["weapons"]["equipped"][weapon]["damage"]
+            # If any cooldowns are bigger than 0:
+            for w in player_stats["weapons"]["equipped"]:
+                if player_stats["weapons"]["equipped"][w]["cooldown"] > 0:
+                    player_stats["weapons"]["equipped"][w]["cooldown"] -= 1
+            # Set the cooldown to its respective time
+            player_stats["weapons"]["equipped"][weapon]["cooldown"] = player_stats["weapons"]["equipped"][weapon]["max_cooldown"]
+            # Return the damage
+            return damage, enemy, player_stats
+        # Otherwise if they inputted a health potion:
+        elif weapon == "health potion" and player_stats["items"].get("health potion", 0) > 0:
+            # Add 10 health to the player’s health
+            player_stats["current_health"] += 10
+            player_stats["items"]["health potion"] -= 1
+            # If any cooldowns are bigger than 0:
+            for w in player_stats["weapons"]["equipped"]:
+                if player_stats["weapons"]["equipped"][w]["cooldown"] > 0:
+                    player_stats["weapons"]["equipped"][w]["cooldown"] -= 1
+            # Return that
+            return "healed", enemy, player_stats
         # Otherwise:
         # Loop 4 times:
-        # If the weapon is usable:
-        # Add it to a list
+        usable_options = []
+        for w in list(player_stats["weapons"]["equipped"])[:4]:
+            # If the weapon is usable:
+            if player_stats["weapons"]["equipped"][w]["cooldown"] == 0:
+                # Add it to a list
+                usable_options.append(w)
         # If the player has health potions:
-        # Add it to the list
+        if player_stats["items"].get("health potion", 0) > 0:
+            # Add it to the list
+            usable_options.append("health potion")
         # Return the list
-
-        # Otherwise if they inputted a weapon:
-        # Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
-        # If any cooldowns are bigger than 0:
-        # Subtract 1 from each of those
-        # Set the cooldown to its respective time
-        # Return the damage
-
-        # Otherwise if they inputted a health potion:
-        # Add 10 health to the player’s health
-        # If any cooldowns are bigger than 0:
-        # Subtract 1 from each of those
-        # Return that
+        return usable_options, enemy, player_stats
 
 while True:
     for i in ["kid", "adult", "old", "order_of_fights", "gatekeeper"]:
@@ -432,44 +454,52 @@ while True:
     
             break
     
-    # Otherwise if there is a person in the room:
-    
-    # Talk with them from a dictionary with dialogue
-    # If it is the mage room and the player has not yet gotten the stat boost:
-    # Infinite loop:
-    # Check if the player wants to get a stat boost
-    # If so:
-    # Infinite loop:
-    # Check which stat they want to boost
-    # If it is a real stat:
-    # Boost that stat by 10
-    # Break the loop
-    
-    # Otherwise if it has Bob and they have not gotten a necklace yet:
-    # Check if the player wants a necklace
-    # If so:
-    # Infinite loop:
-    # Check which necklace they want
-    # If it is a real option:
-    # Put it into the inventory
-    # Break loop
-    
-    # Otherwise if they are in the boss room:
-    elif player_stats["location"] == "boss room"
-    # The combat will run
-    # Display the information learned at the end of the game
-    
-    # Check if the player wants to play again or leave
-    # If leave: break
-    # Otherwise restart
-    
-    # Infinite loop:
-    # Activate movement to get options
-    # Infinite loop:
-    # Display options
-    # Choose from options
-    # Run movement
-    # If valid: break
-    # If moved: break
-    # Show options
-    # Check which one the player wants to use
+        # Otherwise if there is a person in the room:
+        elif player_stats["location"] in ["bob", "mage", "bonus area 1", "bonus area 2", "shop", "gladiator ring"]
+                # Talk with them from a dictionary with dialogue
+                for i in dialogue[player_stats["location"]]:
+                        print(dialogue[player_stats["location"][i-1]])
+                # If it is the mage room and the player has not yet gotten the stat boost:
+                if player_stats["location"] == "mage" and rooms["mage"]["boost"] == "":
+                        # Infinite loop:
+                        while True:
+                                # Check which stat they want to boost
+                                check = input("Which stat do you want to boost? Intelligence, strength, or health").lower()
+                                # If it is a real stat:
+                                if check in ["intelligence", "strength", "health"]:
+                                        # Boost that stat by 10
+                                        player_stats["stats"][check] += 10
+                                        # Break the loop
+                                        break
+                # Otherwise if it has Bob and they have not gotten a necklace yet:
+                elif player_stats["location"] == "bob" and len(necklaces) == 3:
+                        # Infinite loop:
+                        while True:
+                                # Check which necklace they want
+                                print(f"Which necklace do you want? A {necklaces[0]} necklace, a {necklaces[1]} necklace, or a {necklaces{2} necklace? ")
+                                check = input("")
+                                # If it is a real option:
+                                if check in necklaces:
+                                        # Put it into the inventory
+                                        player_stats["necklace"] = check
+                                        necklace.pop(check)
+                                        # Break loop
+                                        break
+                # Otherwise if they are in the boss room:
+                elif player_stats["location"] == "boss room":
+                # The combat will run
+                        
+                # Display the information learned at the end of the game
+                # Check if the player wants to play again or leave
+                # If leave: break
+                # Otherwise restart
+                # Infinite loop:
+        # Activate movement to get options
+        # Infinite loop:
+        # Display options
+        # Choose from options
+        # Run movement
+        # If valid: break
+        # If moved: break
+        # Show options
+        # Check which one the player wants to use
