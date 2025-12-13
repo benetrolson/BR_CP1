@@ -281,13 +281,12 @@ rooms = {
 }
 
 dialogue = {
-        "bob": [],
-        "mage": [],
-        "shop": [],
-        "gladiator ring": [],
-        "bonus area 1": [],
-        "bonus area 2": []
-        
+        "bob": ["Welcome in! I hope you have a good day. ", "I'll see you tomorrow, if you woulf leave me. ", "Fine. "],
+        "mage": ["Hello good sir! ", "Are you looking for a boost in you magical ability? "],
+        "shop": ["Welcome, welcome. ", "I exchange weapons for health potions. ", "Do you want some? "],
+        "gladiator ring": ["Welcome to my arena! ", "Care to fight my slaves, I mean soldiers? "],
+        "bonus area 1": ["You again? "],
+        "bonus area 2": ["WELCOME BACK! "]
 }
 
 # Set the combat as a function and the parameters as: enemy, info about all enemies, player health, player strength, the list of equipped items, the weapon(s) the enemy has, the enemy’s health, whose turn it is, which weapon the player wants to attack with:
