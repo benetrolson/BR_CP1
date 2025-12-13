@@ -301,8 +301,19 @@ rooms = {
         },
 }
 
+dialogue = {
+        "bob": [],
+        "mage": [],
+        "shop": [],
+        "gladiator ring": [],
+        "bonus area 1": [],
+        "bonus area 2": []
+        
+}
+
 # Set the combat as a function and the parameters as: enemy, info about all enemies, player health, player strength, the list of equipped items, the weapon(s) the enemy has, the enemy’s health, whose turn it is, which weapon the player wants to attack with:
 def combat(enemy, enemies, player_stats, turn, weapon):
+        possibilities = []
         # If the enemy is attacking:
         if turn == 0:
                 # See how many available weapons the enemy has and store that in a variable
@@ -323,12 +334,19 @@ def combat(enemy, enemies, player_stats, turn, weapon):
         # Otherwise if the player is attacking:
         elif turn == 1:
         # If the player didn’t input a weapon yet
-            if weapon == "":
+                if weapon == "":
         # If the player has no possible weapons
-                for i in player_stats["weapons"]["equipped"]:
-                    if player_stats["weapons"]["equipped"][i] == 0:
+                        for i in player_stats["weapons"]["equipped"]:
+                                if player_stats["weapons"]["equipped"][i] == 0:
+                                        possibilities.append(player_stats["weapons"]["equipped"][i])
+                        # Return by give them one option; to attack with the beak
+                        if possibilities == []:
+                                return(["beak"])
+                        else:
+                                return([possibilities])
+                elif weapon in player_stats["weapons"]["equipped"] and player_stats["weapons"]["equipped"][weapon] == 0:
                         
-        # Return by give them one option; to attack with the beak
+                        
 
         # Otherwise:
         # Loop 4 times:
