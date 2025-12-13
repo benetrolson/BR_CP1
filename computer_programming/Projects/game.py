@@ -517,8 +517,8 @@ while True:
                                         # Run combat with that new information
                                         dmg, enemy, player_stats = combat(enemy, turn, check)
                                         if dmg != "healed":
-                                                print(f"The enemy took {dmg} damage. Their health is now {enemy['health']}")
                                                 enemy["health"] -= dmg
+                                                print(f"The enemy took {dmg} damage. Their health is now {enemy['health']}")
                                                 break
                                         else:
                                                 print("You healed 10 damage")
