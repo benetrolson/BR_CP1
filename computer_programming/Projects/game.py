@@ -168,7 +168,7 @@ rooms = {
         # Beginning:
         "beginning": {
                 # Possible places to move to: bob, bonus area 1, tutorial
-                "possibilities": ["bob", "bonus area 1", "tutorial"],
+                "possibilities": ["bob", "tutorial"],
                 # Sword has been taken
                 "sword": "",
                 # Description:
@@ -190,7 +190,7 @@ rooms = {
         # Bob:
         "bob": {
                 # Possible places to move to
-                "possibilities": ["beginning", "tutorial", "boss room"],
+                "possibilities": ["beginning", "tutorial", "shop", "boss room"],
                 # Intelligence necklace has been taken
                 "necklaces": {
                         "intelligence": "",
@@ -228,7 +228,7 @@ rooms = {
         },
         # Shop:
         "shop": {
-                "possibilities": ["bob", "tutorial", "gladiator ring", "mage"],
+                "possibilities": ["bob", "tutorial", "gladiator ring", "mage", "gatekeeper"],
                 "description 1": "You find a strange chicken with a bunch of weapons. The chicken seems to wish for something. She awaits your approach. ",
                 "visited": False
         },
@@ -259,6 +259,7 @@ rooms = {
         # Boss room:
         "boss room": {
                 "possibilities": ["bob", "gatekeeper"],
+                "boss": True,
                 "description 1": "A door slams behind you, locking you into the room. The Chickens look at you, seeming prepared. One speaks, saying, “We may not be omniscient, but we are omnipotent. If you survive the final trial, Us, while we don’t really try, you may ascend up and join us in our pursuit of omniscience.”",
                 "visited": False
         },
@@ -459,6 +460,7 @@ while True:
                                         enemy_name = rooms[(player_stats["location"])]["order of fights"][i][2]
                                         if i == 11:
                                                 rooms["gladiator ring"]["possibilities"].append("bonus area 2")
+                                                rooms["beginning"]["possibilities"].append("bonus area 2")
                                         player_stats["health potions"] += 1
                                         break
                 elif player_stats["location"] == "gladiator ring":
@@ -609,12 +611,15 @@ while True:
                                                 break
                                         print("That was an invalid input. Please try again. ")
                         elif player_stats["location"] == "shop":
+                                choice = ""
                                 while True:
                                         print("The shopkeeper squawks:")
                                         print("“I will trade 1 health potion for 1 weapon.”")
                                         # If player has no weapons
                                         if len(player_stats["weapons"]["unequipped"]) == 0:
                                                 print("You have no weapons to trade.")
+                                                break
+                                        if choice == "leave":
                                                 break
                                         while True:
                                                 print("\nYour unequipped weapons:")
@@ -634,7 +639,6 @@ while True:
                                                                 print(f"You now have {player_stats['health potions']} health potion(s).")
                                                         else:
                                                                 print("That is not a valid weapon.")
-                                        break
                         elif player_stats["location"] == "resting place" and rooms["resting place"]["health potion"] == True:
                                 print("You find a helath potion! ")
                                 while True:
@@ -697,7 +701,7 @@ while True:
                         if check in options:
                                 player_stats = move(check)
                                 if player_stats["location"] in ["shop", "beginning", "boss room"]:
-                                        print(rooms[player_stats["location"]])
+                                        print(rooms[player_stats["location"]]["description 1"])
                                 else:
                                         if rooms[player_stats["location"]]["visited"] == False:
                                                 print(rooms[player_stats["location"]]["description 1"])
