@@ -2,8 +2,11 @@
 
 # Import the random functions
 import random
+enemy_name = ""
 check = "yes"
-enemy = None
+enemy = {
+        "health": 0
+}
 necklaces = ["intelligence", "strength", "health"]
 # Set the player stats in a definition:
 player_stats = {
@@ -14,7 +17,7 @@ player_stats = {
                 # Strength: 50
                 "strength": 50,
                 # Health: 50
-                "max_health": 50
+                "health": 50
         },
         "current_health": 50,
         # Weapons: List of all the weapons that the player has
@@ -26,7 +29,7 @@ player_stats = {
                 "unequipped": [],
         },
         # Health potions: 0
-        "health_potions": 0,
+        "health potions": 0,
         # Necklace: whichever necklace they have equipped
         "necklace": "",
         # Location: Beginning
@@ -124,7 +127,7 @@ weapons = {
         },
 
         # Health potion:
-        "health_potions": {
+        "health potions": {
                 # Heals 10 health
                 "heal": 10,
                 # Cooldown is 0
@@ -204,21 +207,21 @@ rooms = {
         },
         # Gladiator Ring:
         "gladiator ring": {
-                "possibilities": ["tutorial", "shop", "mage", "bonus area 1", "bonus area 2"],
-                "order of fights": {
-                        1: ["kid"],
-                        2: ["kid", "kid"],
-                        3: ["adult"],
-                        4: ["kid", "adult"],
-                        5: ["adult", "adult"],
-                        "bonus area 1": "",
-                        6: ["kid", "old"],
-                        7: ["adult", "old"],
-                        8: ["old", "old"],
-                        9: ["adult", "adult", "adult"],
-                        10: ["old", "old", "old"],
-                        "bonus area 2": ""
-                },
+                "possibilities": ["tutorial", "shop", "mage"],
+                "order of fights": [
+                        ["kid"],
+                        ["kid", "kid"],
+                        ["adult"],
+                        ["kid", "adult"],
+                        ["adult", "adult"],
+                        [], #bonus area 1
+                        ["kid", "old"],
+                        ["adult", "old"],
+                        ["old", "old"],
+                        ["adult", "adult", "adult"],
+                        ["old", "old", "old"],
+                        [] # bonus area 2
+                ],
                 "description 1": "A chicken with a boisterous voice welcomes you to his arena, seeking entertainment. He decides to have you battle some of his slaves to give him entertainment. ",
                 "description 2": "The man asks you whether you want to fight another family member or leave. ",
                 "visited": False
@@ -317,8 +320,6 @@ def combat(enemy, turn, weapon, enemies=enemies, player_stats=player_stats):
                         for w in enemy["weapon"]:
                                 if w["cooldown"] > 0:
                                         w["cooldown"] -= 1
-                        if weapon_choice:
-                                enemy["weapon"][weapon_choice]["cooldown"] = weapons[weapon_name]["cooldown"]
                         return 1, enemy, player_stats  # default weak attack
         # Otherwise if the player is attacking:
         elif turn == 1:
@@ -333,46 +334,55 @@ def combat(enemy, turn, weapon, enemies=enemies, player_stats=player_stats):
                                 return ["beak"], enemy, player_stats
                         else:
                                 return possibilities, enemy, player_stats
-        # If the player chose a weapon they have and it’s ready
-        elif weapon in player_stats["weapons"]["equipped"] and player_stats["weapons"]["equipped"][weapon]["cooldown"] == 0:
-                # Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
-                damage = ((player_stats["stats"]["strength"] / 100) + 1) * weapons[weapon]["dmg"]
-                # If any cooldowns are bigger than 0:
-                for w in player_stats["weapons"]["equipped"]:
-                        if player_stats["weapons"]["equipped"][w]["cooldown"] > 0:
-                                player_stats["weapons"]["equipped"][w]["cooldown"] -= 1
-                # Set the cooldown to its respective time
-                player_stats["weapons"]["equipped"][weapon]["cooldown"] = weapons[weapon]["cooldown"]
-                # Return the damage
-                return damage, enemy, player_stats
-        # Otherwise if they inputted a health potion:
-        elif weapon == "health_potions" and player_stats["health_potions"] > 0:
-                if player_stats["current_health"] + 10 >= player_stats["stats"]["max_health"]:
-                        player_stats["current_health"] = player_stats["stats"]["max_health"]
-                else:
-                        # Add 10 health to the player’s health
-                        player_stats["current_health"] += 10
-                player_stats["health_potions"] -= 1
-                # If any cooldowns are bigger than 0:
-                for w in player_stats["weapons"]["equipped"]:
-                        if player_stats["weapons"]["equipped"][w]["cooldown"] > 0:
-                                player_stats["weapons"]["equipped"][w]["cooldown"] -= 1
-                # Return that
-                return "healed", enemy, player_stats
-        # Otherwise:
-        # Loop 4 times:
-        usable_options = []
-        for w in list(player_stats["weapons"]["equipped"])[:4]:
-                # If the weapon is usable:
-                if player_stats["weapons"]["equipped"][w]["cooldown"] == 0:
-                        # Add it to a list
-                        usable_options.append(w)
-        # If the player has health potions:
-        if player_stats["health_potions"] > 0:
-                # Add it to the list
-                usable_options.append("health_potions")
-        # Return the list
-        return usable_options, enemy, player_stats
+                # If the player chose a weapon they have and it’s ready
+                elif weapon in player_stats["weapons"]["equipped"] and player_stats["weapons"]["equipped"][weapon]["cooldown"] == 0:
+                        # Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
+                        damage = ((player_stats["stats"]["strength"] / 100) + 1) * weapons[weapon]["dmg"]
+                        # If any cooldowns are bigger than 0:
+                        for w in player_stats["weapons"]["equipped"]:
+                                if player_stats["weapons"]["equipped"][w]["cooldown"] > 0:
+                                        player_stats["weapons"]["equipped"][w]["cooldown"] -= 1
+                        # Set the cooldown to its respective time
+                        player_stats["weapons"]["equipped"][weapon]["cooldown"] = weapons[weapon]["cooldown"]
+                        # Return the damage
+                        return damage, enemy, player_stats
+                elif weapon == "beak":
+                        # Calculate the damage as ((strength / 100) + 1) * dmg_of_weapon
+                        damage = ((player_stats["stats"]["strength"] / 100) + 1) * weapons["beak"]["dmg"]
+                        # If any cooldowns are bigger than 0:
+                        for w in player_stats["weapons"]["equipped"]:
+                                if player_stats["weapons"]["equipped"][w]["cooldown"] > 0:
+                                        player_stats["weapons"]["equipped"][w]["cooldown"] -= 1
+                        # Return the damage
+                        return damage, enemy, player_stats
+                # Otherwise if they inputted a health potion:
+                elif weapon == "health potions" and player_stats["health potions"] > 0:
+                        if player_stats["current_health"] + 10 >= player_stats["stats"]["health"]:
+                                player_stats["current_health"] = player_stats["stats"]["health"]
+                        else:
+                                # Add 10 health to the player’s health
+                                player_stats["current_health"] += 10
+                        player_stats["health potions"] -= 1
+                        # If any cooldowns are bigger than 0:
+                        for w in player_stats["weapons"]["equipped"]:
+                                if player_stats["weapons"]["equipped"][w]["cooldown"] > 0:
+                                        player_stats["weapons"]["equipped"][w]["cooldown"] -= 1
+                        # Return that
+                        return "healed", enemy, player_stats
+                # Otherwise:
+                # Loop 4 times:
+                usable_options = []
+                for w in list(player_stats["weapons"]["equipped"])[:4]:
+                        # If the weapon is usable:
+                        if player_stats["weapons"]["equipped"][w]["cooldown"] == 0:
+                                # Add it to a list
+                                usable_options.append(w)
+                # If the player has health potions:
+                if player_stats["health potions"] > 0:
+                        # Add it to the list
+                        usable_options.append("health potions")
+                # Return the list
+                return usable_options, enemy, player_stats
 
 def move(options, rooms = rooms, player_stats = player_stats):
         if options == "":
@@ -425,29 +435,38 @@ while True:
         while True:
                 check = input("Do you want to pick up the sword? If so, write 'yes'. ").lower()
                 if check == "yes":
-                        equip_weapon(player_stats, "sword")
                         break
         while True:
+                enemy_name = ""
                 for i in enemies:
                         if i in rooms[(player_stats["location"])]:
-                                enemy = i
-                rooms[(player_stats["location"])][enemy] = False
+                                enemy_name = i
+                if enemy_name:
+                        rooms[(player_stats["location"])][enemy_name] = False
                 if player_stats["location"] == "gladiator ring":
                         for i in range(10):
-                                if rooms[(player_stats["location"])]["order_of_fights"][i][1]:
-                                        enemy = rooms[(player_stats["location"])]["order_of_fights"][i][1]
+                                if rooms[(player_stats["location"])]["order of fights"][i][0]:
+                                        enemy_name = rooms[(player_stats["location"])]["order of fights"][i][0]
+                                        player_stats["health potions"] += 1
                                         break
-                                elif rooms[(player_stats["location"])]["order_of_fights"][i][2]:
-                                        enemy = rooms[(player_stats["location"])]["order_of_fights"][i][2]
+                                elif rooms[(player_stats["location"])]["order of fights"][i][1]:
+                                        enemy_name = rooms[(player_stats["location"])]["order of fights"][i][1]
+                                        if i == 5:
+                                                rooms["gladiator ring"]["possibilities"].append("bonus area 1")
+                                        player_stats["health potions"] += 1
                                         break
-                                elif rooms[(player_stats["location"])]["order_of_fights"][i][3]:
-                                        enemy = rooms[(player_stats["location"])]["order_of_fights"][i][3]
+                                elif rooms[(player_stats["location"])]["order of fights"][i][2]:
+                                        enemy_name = rooms[(player_stats["location"])]["order of fights"][i][2]
+                                        if i == 11:
+                                                rooms["gladiator ring"]["possibilities"].append("bonus area 2")
+                                        player_stats["health potions"] += 1
                                         break
-                else:
+                elif player_stats["location"] == "gladiator ring":
                         check = input("Do you want to fight one of my men? If so write 'yes'. ")
                         if check == "yes":
-                                enemy = "old"    
-                if enemy == "kid":
+                                enemy = "old"
+                                player_stats["health potions"] += 1  
+                if enemy_name == "kid":
                         enemy = {
                                 "weapon": [
                                         {"name": random.choice(["sword", "axe", "spear", "club"]), "cooldown": 0}
@@ -455,7 +474,7 @@ while True:
                                 "health": 20,
                                 "strength": 20
                         }
-                elif enemy == "adult":
+                elif enemy_name == "adult":
                         enemy = {
                                 "weapon": [
                                         {"name": random.choice(["sword", "axe", "spear", "club"]), "cooldown": 0},
@@ -464,7 +483,7 @@ while True:
                                 "health": 40,
                                 "strength": 40
                         }
-                elif enemy == "old":
+                elif enemy_name == "old":
                         enemy = {
                                 "weapon": [
                                         {"name": random.choice(["sword", "axe", "spear", "club"]), "cooldown": 0},
@@ -474,7 +493,7 @@ while True:
                                 "health": 20,
                                 "strength": 50
                         }
-                elif enemy == "gatekeeper":
+                elif enemy_name == "gatekeeper":
                         enemy = {
                                 "weapon": [
                                         {"name": "axe", "cooldown": 0},
@@ -484,7 +503,7 @@ while True:
                                 "health": 50,
                                 "strength": 50
                         }
-                elif enemy == "boss":
+                elif enemy_name == "boss":
                         enemy = {
                                 "weapon": [
                                         {"name": "axe", "cooldown": 0},
@@ -495,7 +514,7 @@ while True:
                                 "health": 60,
                                 "strength": 60
                         }
-                while player_stats["current_health"] > 0 and enemy["health"] > 0:
+                while player_stats["current_health"] > 0 and enemy["health"] > 0 and enemy_name != "":
                         turn = 0
                         # Call the combat with the enemy first
                         dmg, enemy, player_stats = combat(enemy, turn, "")
@@ -528,12 +547,14 @@ while True:
                                                 else:
                                                         player_stats["current_health"] += 10
                                 print("Try again. That was an invalid input. ")
-                if player_stats["current_health"] <= 0:
-                        check = input("You lost. Do you want to play again? If so, write 'yes'. ").lower()
-                        break
                 else:
-                        player_stats, dropped = loot_enemy(enemy, player_stats)
-                        print("You won! ")
+                        if player_stats["current_health"] <= 0:
+                                check = input("You lost. Do you want to play again? If so, write 'yes'. ").lower()
+                                break
+                        elif enemy_name != "":
+                                player_stats, dropped = loot_enemy(enemy, player_stats)
+                                print("You won! ")
+                                player_stats["current_health"] = player_stats["stats"]["health"]
                 # Otherwise if there is a person in the room:
                 if player_stats["location"] in ["bob", "mage", "bonus area 1", "bonus area 2", "shop", "gladiator ring"]:
                         # Talk with them from a dictionary with dialogue
@@ -576,6 +597,7 @@ while True:
                                                 player_stats["stats"][neck] += 10
                                                 necklaces.remove(neck)
                                                 break
+                                        print("That was an invalid input. Please try again. ")
                         elif player_stats["location"] == "bonus area 2" and len(necklaces) == 1:
                                 while True:
                                         neck = input("In exchange for the supe necklace, will you trade your current necklace? If so, write 'yes'. ").lower()
@@ -584,6 +606,8 @@ while True:
                                                 for i in player_stats["stats"]:
                                                         player_stats["stats"][i] += 10
                                                 player_stats["necklace"] = "super necklace"
+                                                break
+                                        print("That was an invalid input. Please try again. ")
                         elif player_stats["location"] == "shop":
                                 while True:
                                         print("The shopkeeper squawks:")
@@ -596,7 +620,7 @@ while True:
                                                 print("\nYour unequipped weapons:")
                                                 for w in player_stats["weapons"]["unequipped"]:
                                                         print("-", w)
-                                                        print(f"Health potions: {player_stats['health_potions']}")
+                                                        print(f"Health potions: {player_stats['health potions']}")
                                                         choice = input("Which weapon do you want to trade? (or type 'leave') ").lower()
                                                         if choice == "leave":
                                                                 print("You leave the shop.")
@@ -605,17 +629,18 @@ while True:
                                                                 # Remove weapon
                                                                 player_stats["weapons"]["unequipped"].remove(choice)
                                                                 # Give potion
-                                                                player_stats["health_potions"] += 1
+                                                                player_stats["health potions"] += 1
                                                                 print(f"You traded {choice} for a health potion.")
-                                                                print(f"You now have {player_stats['health_potions']} health potion(s).")
+                                                                print(f"You now have {player_stats['health potions']} health potion(s).")
                                                         else:
                                                                 print("That is not a valid weapon.")
+                                        break
                         elif player_stats["location"] == "resting place" and rooms["resting place"]["health potion"] == True:
                                 print("You find a helath potion! ")
                                 while True:
                                         check = input("Do you want to pick it up? If so, write 'yes'. ")
                                         if check == "yes":
-                                                player_stats["health_potions"] += 2
+                                                player_stats["health potions"] += 2
                                                 rooms["resting place"]["health potion"] = False
                                                 break
                                         print("Try again. That input was invalid. ")
@@ -626,64 +651,58 @@ while True:
                                 # Check if the player wants to play again or leave
                                 check = input("Do you want to play again? If so, write 'yes'. ")
                                 break
-                        check = input("Do you want to rearrange your inventory? ").lower()
-                        if check == "yes":
-                                while True:
-                                        # Show current status
-                                        print("\nEquipped weapons:", list(player_stats["weapons"]["equipped"].keys()))
-                                        print("Unequipped weapons:", player_stats["weapons"]["unequipped"])
-                                        print("Type 'equip <weapon>', 'unequip <weapon>', or 'done' to finish.")
-                                        
-                                        # Get player input
-                                        choice = input("What do you want to do? ").strip().lower()
-                                        
-                                        if choice == "done":
-                                                break
-                                        
-                                        if choice.startswith("equip "):
-                                                weapon_name = choice.split("equip ", 1)[1]
-                                                if weapon_name in player_stats["weapons"]["unequipped"]:
-                                                        if len(player_stats["weapons"]["equipped"]) < 4:
-                                                                player_stats["weapons"]["equipped"][weapon_name] = {"cooldown": 0}
-                                                                player_stats["weapons"]["unequipped"].remove(weapon_name)
-                                                                print(f"{weapon_name} equipped!")
-                                                        else:
-                                                                print("No free slot to equip this weapon. Unequip one first.")
-                                                else:
-                                                        print(f"{weapon_name} is not in your unequipped weapons.")
-                                        elif choice.startswith("unequip "):
-                                                weapon_name = choice.split("unequip ", 1)[1]
-                                                if weapon_name in player_stats["weapons"]["equipped"]:
-                                                        player_stats["weapons"]["unequipped"].append(weapon_name)
-                                                        del player_stats["weapons"]["equipped"][weapon_name]
-                                                        print(f"{weapon_name} unequipped!")
-                                                else:
-                                                        print(f"{weapon_name} is not currently equipped.")
-                                        
-                                        else:
-                                                print("Invalid command. Use 'equip <weapon>', 'unequip <weapon>', or 'done'.")
-                        # Infinite loop:
+                check = input("Do you want to rearrange your inventory? ").lower()
+                if check == "yes":
                         while True:
-                                # Activate movement to get options
-                                options = move("")
-                                # Infinite loop:
-                                while True:
-                                        # Display options
-                                        print("Your options are: ")
-                                        for option in options:
-                                                print(option)
-                                        # Choose from options
-                                        check = input("Which place do you want to go to? ")
-                                        # Run movement
-                                        if check in options:
-                                                player_stats = move(check)
-                                                if player_stats["location"] in ["shop", "beginning", "boss room"]:
-                                                        print(rooms[player_stats["location"]])
+                                # Show current status
+                                print("\nEquipped weapons:", list(player_stats["weapons"]["equipped"].keys()))
+                                print("Unequipped weapons:", player_stats["weapons"]["unequipped"])
+                                print("Type 'equip <weapon>', 'unequip <weapon>', or 'done' to finish.")
+                                # Get player input
+                                choice = input("What do you want to do? ").strip().lower()
+                                if choice == "done":
+                                        break
+                                if choice.startswith("equip "):
+                                        weapon_name = choice.split("equip ", 1)[1]
+                                        if weapon_name in player_stats["weapons"]["unequipped"]:
+                                                if len(player_stats["weapons"]["equipped"]) < 4:
+                                                        player_stats["weapons"]["equipped"][weapon_name] = {"cooldown": 0}
+                                                        player_stats["weapons"]["unequipped"].remove(weapon_name)
+                                                        print(f"{weapon_name} equipped!")
                                                 else:
-                                                        if rooms[player_stats["location"]]["visited"] == False:
-                                                                print(rooms[player_stats["location"]]["description 1"])
-                                                        else:
-                                                                print(rooms[player_stats["location"]]["description 2"])
-                                                rooms[player_stats["location"]]["visited"] = True
-                                                break
-                                        print("Try again. Your input was invalid. ")
+                                                        print("No free slot to equip this weapon. Unequip one first.")
+                                        else:
+                                                print(f"{weapon_name} is not in your unequipped weapons.")
+                                elif choice.startswith("unequip "):
+                                        weapon_name = choice.split("unequip ", 1)[1]
+                                        if weapon_name in player_stats["weapons"]["equipped"]:
+                                                player_stats["weapons"]["unequipped"].append(weapon_name)
+                                                del player_stats["weapons"]["equipped"][weapon_name]
+                                                print(f"{weapon_name} unequipped!")
+                                        else:
+                                                print(f"{weapon_name} is not currently equipped.")
+                                else:
+                                        print("Invalid command. Use 'equip <weapon>', 'unequip <weapon>', or 'done'.")
+                # Activate movement to get options
+                options = move("")
+                # Infinite loop:
+                while True:
+                        # Display options
+                        print("Your options for movement are: ")
+                        for option in options:
+                                print(option)
+                        # Choose from options
+                        check = input("Which place do you want to go to? ")
+                        # Run movement
+                        if check in options:
+                                player_stats = move(check)
+                                if player_stats["location"] in ["shop", "beginning", "boss room"]:
+                                        print(rooms[player_stats["location"]])
+                                else:
+                                        if rooms[player_stats["location"]]["visited"] == False:
+                                                print(rooms[player_stats["location"]]["description 1"])
+                                        else:
+                                                print(rooms[player_stats["location"]]["description 2"])
+                                rooms[player_stats["location"]]["visited"] = True
+                                break
+                        print("Try again. Your input was invalid. ")
