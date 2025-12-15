@@ -1,4 +1,4 @@
-# BHR 2nd Final Project
+8# BHR 2nd Final Project
 
 # Import the random functions
 import random
@@ -613,20 +613,22 @@ while True:
                                                 print("\nYour unequipped weapons:")
                                                 for w in player_stats["weapons"]["unequipped"]:
                                                         print("-", w)
-                                                        print(f"Health potions: {player_stats['health potions']}")
-                                                        choice = input("Which weapon do you want to trade? (or type 'leave') ").lower().strip()
-                                                        if choice == "leave":
-                                                                print("You leave the shop.")
-                                                                break
-                                                        elif choice in player_stats["weapons"]["unequipped"]:
-                                                                # Remove weapon
-                                                                player_stats["weapons"]["unequipped"].remove(choice)
-                                                                # Give potion
-                                                                player_stats["health potions"] += 1
-                                                                print(f"You traded {choice} for a health potion.")
-                                                                print(f"You now have {player_stats['health potions']} health potion(s).")
-                                                        else:
-                                                                print("That is not a valid weapon.")
+                                                print(f"Health potions: {player_stats['health potions']}")
+                                                choice = input("Which weapon do you want to trade? (or type 'leave') ").lower().strip()
+                                                if choice == "leave":
+                                                        print("You leave the shop.")
+                                                        break
+                                                elif choice in player_stats["weapons"]["unequipped"]:
+                                                        # Remove weapon
+                                                        player_stats["weapons"]["unequipped"].remove(choice)
+                                                        # Give potion
+                                                        player_stats["health potions"] += 1
+                                                        print(f"You traded {choice} for a health potion.")
+                                                        print(f"You now have {player_stats['health potions']} health potion(s).")
+                                                else:
+                                                        print("That is not a valid weapon.")
+                                        if choice == "leave":
+                                               break
                         elif player_stats["location"] == "resting place" and rooms["resting place"]["health potion"] == True:
                                 print("You find a helath potion! ")
                                 while True:
@@ -672,7 +674,14 @@ while True:
                                         for i in range(len(player_stats["weapons"]["equipped"])):
                                                 if weapon_name == player_stats["weapons"]["equipped"][i-1]["name"]:
                                                         player_stats["weapons"]["unequipped"].append(weapon_name)
-                                                        del player_stats["weapons"]["equipped"][i]
+                                                        if player_stats["weapons"]["equipped"][0]["name"] == weapon_name:
+                                                                del player_stats["weapons"]["equipped"][0]
+                                                        elif player_stats["weapons"]["equipped"][1]["name"] == weapon_name:
+                                                                del player_stats["weapons"]["equipped"][1]
+                                                        elif player_stats["weapons"]["equipped"][2]["name"] == weapon_name:
+                                                                del player_stats["weapons"]["equipped"][2]
+                                                        elif player_stats["weapons"]["equipped"][3]["name"] == weapon_name:
+                                                                del player_stats["weapons"]["equipped"][3]
                                                         print(f"{weapon_name} unequipped!")
                                         else:
                                                 print(f"{weapon_name} is not currently equipped.")
