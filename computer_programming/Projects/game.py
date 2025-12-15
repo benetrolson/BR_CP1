@@ -283,12 +283,13 @@ rooms = {
 }
 
 dialogue = {
-        "bob": ["Welcome in! I hope you have a good day. ", "I'll see you tomorrow, if you d leave me. ", "Fine. "],
+        "bob": ["Welcome in! I hope you have a good day. ", "I'll see you tomorrow, if you'd leave me. ", "Fine. "],
         "mage": ["Hello good sir! ", "Are you looking for a boost in you magical ability? "],
         "shop": ["Welcome, welcome. ", "I exchange weapons for health potions. ", "Do you want some? "],
         "gladiator ring": ["Welcome to my arena! ", "Care to fight my slaves, I mean soldiers? "],
         "bonus area 1": ["You again? "],
-        "bonus area 2": ["WELCOME BACK! "]
+        "bonus area 2": ["WELCOME BACK! "],
+        "boss room": ["Thank you. Join us in our quest for omnipotence. "]
 }
 
 # Set the combat as a function and the parameters as: enemy, info about all enemies, player health, player strength, the list of equipped items, the weapon(s) the enemy has, the enemy’s health, whose turn it is, which weapon the player wants to attack with:
@@ -321,14 +322,13 @@ def combat(enemy, turn, weapon, enemies=enemies, player_stats=player_stats):
 
         # Player hasn't chosen a weapon yet
         if weapon == "":
-            for w in player_stats["weapons"]["equipped"]:
-                if w["cooldown"] == 0:
-                    possibilities.append(w["name"])
-            if player_stats["health potions"] > 0:
-                possibilities.append("health potions")
-            if not possibilities:
-                possibilities = ["beak"]
-            return possibilities, enemy, player_stats
+                for w in player_stats["weapons"]["equipped"]:
+                        if w["cooldown"] == 0:
+                                possibilities.append(w["name"])
+                if player_stats["health potions"] > 0:
+                        possibilities.append("health potions")
+                possibilities.append("beak")
+                return possibilities, enemy, player_stats
 
         # Player chose beak attack
         elif weapon == "beak":
@@ -524,14 +524,16 @@ while True:
                                                 enemy["health"] -= dmg
                                                 print(f"The enemy took {dmg} damage. Their health is now {enemy['health']}")
                                                 break
-                                        else:
-                                                print("You healed 10 damage")
+                                        elif dmg == "healed":
+                                                print("You healed. ")
                                                 
                                                 if player_stats["current_health"] + 10 < player_stats["stats"]["health"]:
                                                         player_stats["current_health"] = player_stats["stats"]["health"]
                                                 else:
                                                         player_stats["current_health"] += 10
-                                print("Try again. That was an invalid input. ")
+                                                break
+                                        else:
+                                                print("Try again. That was an invalid input. ")
                 else:
                         if player_stats["current_health"] <= 0:
                                 check = input("You lost. Do you want to play again? If so, write 'yes'. ").lower().strip()
@@ -541,7 +543,7 @@ while True:
                                 print("You won! ")
                                 player_stats["current_health"] = player_stats["stats"]["health"]
                 # Otherwise if there is a person in the room:
-                if player_stats["location"] in ["bob", "mage", "bonus area 1", "bonus area 2", "shop", "gladiator ring"]:
+                if player_stats["location"] in ["bob", "mage", "bonus area 1", "bonus area 2", "shop", "gladiator ring", "boss room"]:
                         # Talk with them from a dictionary with dialogue
                         for line in dialogue[player_stats["location"]]:
                                 print(line)
@@ -645,7 +647,9 @@ while True:
                 if check == "yes":
                         while True:
                                 # Show current status
-                                print("\nEquipped weapons:", list(player_stats["weapons"]["equipped"].keys()))
+                                print("Equipped weapons:")
+                                for i in range(len(player_stats["weapons"]["equipped"])):
+                                       print(player_stats["weapons"]["equipped"][i-1]["name"])
                                 print("Unequipped weapons:", player_stats["weapons"]["unequipped"])
                                 print("Type 'equip <weapon>', 'unequip <weapon>', or 'done' to finish.")
                                 # Get player input
@@ -656,7 +660,7 @@ while True:
                                         weapon_name = choice.split("equip ", 1)[1]
                                         if weapon_name in player_stats["weapons"]["unequipped"]:
                                                 if len(player_stats["weapons"]["equipped"]) < 4:
-                                                        player_stats["weapons"]["equipped"][weapon_name] = {"cooldown": 0}
+                                                        player_stats["weapons"]["equipped"].append({"name": weapon_name, "cooldown": 0})
                                                         player_stats["weapons"]["unequipped"].remove(weapon_name)
                                                         print(f"{weapon_name} equipped!")
                                                 else:
@@ -665,10 +669,11 @@ while True:
                                                 print(f"{weapon_name} is not in your unequipped weapons.")
                                 elif choice.startswith("unequip "):
                                         weapon_name = choice.split("unequip ", 1)[1]
-                                        if weapon_name in player_stats["weapons"]["equipped"]:
-                                                player_stats["weapons"]["unequipped"].append(weapon_name)
-                                                del player_stats["weapons"]["equipped"][weapon_name]
-                                                print(f"{weapon_name} unequipped!")
+                                        for i in range(len(player_stats["weapons"]["equipped"])):
+                                                if weapon_name == player_stats["weapons"]["equipped"][i-1]["name"]:
+                                                        player_stats["weapons"]["unequipped"].append(weapon_name)
+                                                        del player_stats["weapons"]["equipped"][i]
+                                                        print(f"{weapon_name} unequipped!")
                                         else:
                                                 print(f"{weapon_name} is not currently equipped.")
                                 else:
